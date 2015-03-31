@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\acoving\AndroidStudioProjects\Activities\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="C:\Users\acoving\AndroidStudioProjects\Activities\app\build\intermediates\pre-dexed\debug\classes-18125d54900b1c8390b7c098ae53897e2997ab81.jar" />
+    </item>
+    <item
+        jar="C:\Users\acoving\AndroidStudioProjects\Activities\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="C:\Users\acoving\AndroidStudioProjects\Activities\app\build\intermediates\pre-dexed\debug\classes-a0e74d78347caa9c8b150c6ac2ce82b5cb4d56b6.jar" />
+    </item>
+    <item
+        jar="C:\Users\acoving\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="C:\Users\acoving\AndroidStudioProjects\Activities\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-7185fce759022fd146c9500e46146f99c26e7344.jar" />
+    </item>
+    <item
+        jar="C:\Users\acoving\AndroidStudioProjects\Activities\app\build\intermediates\exploded-aar\com.google.android.gms\play-services\6.1.71\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="0f6d5c1ef2e982c3b7858408e3df389cf5d202da">
+        <dex dex="C:\Users\acoving\AndroidStudioProjects\Activities\app\build\intermediates\pre-dexed\debug\classes-8411e083f78379a5ed273d7d2a225e8c6f2989f8.jar" />
+    </item>
+    <item
+        jar="C:\Users\acoving\AndroidStudioProjects\Activities\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="C:\Users\acoving\AndroidStudioProjects\Activities\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-ae20e9225a1811e9a7b5454f05676d2a4854d181.jar" />
+    </item>
+
+</items>
