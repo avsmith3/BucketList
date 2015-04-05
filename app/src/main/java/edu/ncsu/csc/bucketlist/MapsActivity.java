@@ -65,6 +65,12 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
 
         if(location!=null){
             onLocationChanged(location);
+
+            // Showing the current location in Google Map
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
+
+            // Zoom in the Google Map
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
         }
         locationManager.requestLocationUpdates(provider, 20000, 0, this);
     }
@@ -137,12 +143,6 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
 
         //mMap.addMarker(new MarkerOptions().position(latLng));
         drawMarker(location);
-
-        // Showing the current location in Google Map
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-
-        // Zoom in the Google Map
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
     }
 
     @Override
