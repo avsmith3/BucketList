@@ -9,6 +9,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -24,16 +25,12 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 
 public class MapsActivity extends FragmentActivity implements LocationListener,
         GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener   {
-
-    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+        GoogleApiClient.OnConnectionFailedListener {
 
     /* Client used to interact with Google APIs. */
     private GoogleApiClient mGoogleApiClient;
-
-    Location mCurrentLocation;
-    String mLatitudeText, mLongitudeText;
     LocationRequest mLocationRequest;
+    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +47,14 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
                 .build();
 
         mMap.setMyLocationEnabled(true);
+
+        //TODO: There has to be a better way to do this instead of cluttering onCreate !!!
+        mMap.setOnMapLongClickListener(  new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+                drawMarker(latLng);
+            }
+        });
 
         // Getting LocationManager object from System Service LOCATION_SERVICE
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -93,24 +98,17 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
         //stopLocationUpdates();
     }
 
-    protected synchronized void buildGoogleApiClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-    }
-
-    public void onConnected(Bundle connectionHint) {
-        //startLocationUpdates();
-    }
-
     @Override
-    public void onConnectionSuspended(int i) {
-
+    protected void onResume() {
+        super.onResume();
+        setUpMapIfNeeded();
+        if (mGoogleApiClient.isConnected()) {
+            //startLocationUpdates();
+        }
     }
 
-/*
+    //TODO: Enable this code without the compilation errors so client can be suspended and restarted
+    /*
     protected void startLocationUpdates() {
         LocationServices.FusedLocationApi.requestLocationUpdates(
                 mGoogleApiClient, mLocationRequest, (com.google.android.gms.location.LocationListener) this);
@@ -122,12 +120,29 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
     }*/
 
 
+    public void onConnected(Bundle connectionHint) {
+        //startLocationUpdates();
+    }
+
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+
+    public void onMapLongClick(LatLng latlng) {
+        drawMarker(latlng);
+    }
+
+
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(10000);
         mLocationRequest.setFastestInterval(5000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
+
 
     @Override
     public void onLocationChanged(Location location) {
@@ -141,44 +156,41 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
         // Creating a LatLng object for the current location
         LatLng latLng = new LatLng(latitude, longitude);
 
+        //Nikhil: Dont draw marker at current location. The GPS location circle will suffice.
         //mMap.addMarker(new MarkerOptions().position(latLng));
-        drawMarker(location);
+        //drawMarker(latLng);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setUpMapIfNeeded();
-        if (mGoogleApiClient.isConnected()) {
-            //startLocationUpdates();
-        }
-    }
 
-    private void drawMarker(Location location){
-        // Remove any existing markers on the map
+    private void drawMarker(LatLng currentPosition){
+        // Remove any existing markercation locations on the map
         mMap.clear();
-        LatLng currentPosition = new LatLng(location.getLatitude(),location.getLongitude());
+        //LatLng currentPosition = new LatLng(location.getLatitude(),location.getLongitude());
         mMap.addMarker(new MarkerOptions()
                 .position(currentPosition)
-                .snippet("Lat:" + location.getLatitude() + "Lng:"+ location.getLongitude())
+                .snippet("Lat:" + currentPosition.latitude + "Lng:" + currentPosition.longitude)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                 .title("ME"));
     }
+
 
     @Override
     public void onProviderDisabled(String provider) {
         // TODO Auto-generated method stub
     }
 
+
     @Override
     public void onProviderEnabled(String provider) {
         // TODO Auto-generated method stub
     }
 
+
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
         // TODO Auto-generated method stub
     }
+
 
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
@@ -189,8 +201,10 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
         }
     }
 
+
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
     }
+
 }
