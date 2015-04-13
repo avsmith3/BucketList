@@ -30,3 +30,8 @@ proguard/
 gradle-app.setting
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
+
+# more rules
+.idea/workspace.xml
+.idea/libraries
+.DS_Store
