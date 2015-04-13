@@ -1,10 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">BucketList</string>
 
+    <string name="app_name">BucketList</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_maps">Map</string>
-
-
     <string name="title_activity_home_page">HomePage</string>
     <string name="welcomeText">Welcome Bucketer </string>
     <string name="myBucketsBtn">My Buckets</string>
@@ -13,6 +12,24 @@
     <string name="shareBucketsBtn">Share Buckets</string>
     <string name="topBucketsBtn">Top Buckets</string>
     <string name="settingsBtn">Settings</string>
-
     <string name="btn_logout_from_google">Logout from Google</string>
+    <string name="title_activity_add_bucket">AddBucket</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="enter_bucket_name">Enter Bucket Name</string>
+    <string name="enter_latitude">Enter Latitude</string>
+    <string name="enter_longitude">Enter Longitude</string>
+    <string name="enter_bucket_description">Enter Bucket Description</string>
+    <string name="title_activity_show_buckets">ShowBuckets</string>
+    <string name="title_activity_display_bucket">DisplayBucket</string>
+    <string name="name">Bucket Name</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="description">Description</string>
+    <string name="savebucket">Save Bucket</string>
+    <string name="edit">Edit Bucket</string>
+    <string name="delete">Delete Bucket</string>
+    <string name="deleteBucket">Delete Bucket?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
 </resources>
