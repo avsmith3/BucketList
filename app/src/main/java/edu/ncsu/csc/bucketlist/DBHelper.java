@@ -1,8 +1,5 @@
 package edu.ncsu.csc.bucketlist;
 
-/**
- * Created by welcome on 07-04-2015.
- */
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
