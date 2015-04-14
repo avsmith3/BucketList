@@ -31,6 +31,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
     private GoogleApiClient mGoogleApiClient;
     LocationRequest mLocationRequest;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    //FeedReaderContract.FeedReaderDbHelper mDbHelper = new FeedReaderContract.FeedReaderDbHelper(getContext());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,5 +207,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
     }
+
+
 
 }

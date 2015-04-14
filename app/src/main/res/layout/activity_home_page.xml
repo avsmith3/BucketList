@@ -19,13 +19,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/myBucketsBtn"
-        android:id="@+id/myBucketsBtn" />
+        android:id="@+id/myBucketsBtn"
+        android:onClick="showBuckets" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/newBucketBtn"
-        android:id="@+id/newBucketBtn" />
+        android:id="@+id/newBucketBtn"
+        android:onClick="addBucket" />
 
     <Button
         android:layout_width="match_parent"

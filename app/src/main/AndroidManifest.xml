@@ -28,7 +28,7 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.Light" >
         <activity
-            android:name="edu.ncsu.csc.bucketlist.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,12 +45,32 @@
             android:value="AIzaSyDuxDV0SXnXpJ38xjL0uhVfG1SX5j4m_rg" />
 
         <activity
-            android:name="edu.ncsu.csc.bucketlist.MapsActivity"
+            android:name=".MapsActivity"
             android:label="@string/title_activity_maps" >
         </activity>
         <activity
-            android:name="edu.ncsu.csc.bucketlist.HomePage"
+            android:name=".HomePage"
             android:label="@string/title_activity_home_page" >
+        </activity>
+        <activity
+            android:name=".AddBucket"
+            android:label="@string/title_activity_add_bucket"
+            android:parentActivityName=".HomePage" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.ncsu.csc.bucketlist.HomePage" />
+        </activity>
+        <activity
+            android:name=".ShowBuckets"
+            android:label="@string/title_activity_show_buckets"
+            android:parentActivityName=".HomePage" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.ncsu.csc.bucketlist.HomePage" />
+        </activity>
+        <activity
+            android:name=".DisplayBucket"
+            android:label="@string/title_activity_display_bucket" >
         </activity>
     </application>
 
