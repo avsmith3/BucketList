@@ -1,6 +1,10 @@
 package edu.ncsu.csc.bucketlist;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
+import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.location.Criteria;
@@ -10,46 +14,127 @@ import android.location.LocationManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.view.View.OnClickListener;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceBuffer;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.OnMapReadyCallback;
+
+import java.io.IOException;
+import java.util.List;
+
 
 public class MapsActivity extends FragmentActivity implements LocationListener,
         GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback {
 
     /* Client used to interact with Google APIs. */
     private GoogleApiClient mGoogleApiClient;
     LocationRequest mLocationRequest;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-    //FeedReaderContract.FeedReaderDbHelper mDbHelper = new FeedReaderContract.FeedReaderDbHelper(getContext());
+    private UiSettings mUiSettings;
+
+    private RelativeLayout layout;
+    private SearchView searchBox;
+    private static final float DEFAULTZOOM = 15;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        setUpMapIfNeeded();
 
-        createLocationRequest();
-
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
+        mGoogleApiClient = new GoogleApiClient
+                .Builder(this)
                 .addApi(LocationServices.API)
+                .addApi(Places.GEO_DATA_API)
+                .addApi(Places.PLACE_DETECTION_API)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
 
+        SupportMapFragment mapFragment =
+                (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+
+        if (savedInstanceState == null) {
+            // First incarnation of this activity.
+            mapFragment.setRetainInstance(true);
+        }
+
+        mapFragment.getMapAsync(this);
+
+        searchBox = new SearchView(MapsActivity.this);
+        layout = (RelativeLayout) findViewById(R.id.maps_layout);
+
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                (int) RadioGroup.LayoutParams.WRAP_CONTENT, (int) RadioGroup.LayoutParams.WRAP_CONTENT);
+        params.setMargins(15, 15, 0, 0);
+        searchBox.setQueryHint("Enter Location");
+        searchBox.setBackgroundColor(Color.WHITE);
+        searchBox.getBackground().setAlpha(205);
+
+        searchBox.setLayoutParams(params);
+        layout.addView(searchBox);
+
+
+        //***setOnQueryTextListener***
+        searchBox.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // TODO Auto-generated method stub
+
+                if (query.trim().isEmpty()) {
+                    Toast.makeText(getBaseContext(), "Enter Location",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    geoLocate(searchBox);
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // TODO Auto-generated method stub
+
+                return false;
+            }
+        });
+
+     }
+
+    @Override
+    public void onMapReady(GoogleMap map) {
+        mMap = map;
+
+        mMap.setMyLocationEnabled(true);
+        mUiSettings = mMap.getUiSettings();
+
+        mUiSettings.setZoomControlsEnabled(true);
+        mUiSettings.setMyLocationButtonEnabled(true);
+        mUiSettings.setMapToolbarEnabled(false);
         mMap.setMyLocationEnabled(true);
 
-        //TODO: There has to be a better way to do this instead of cluttering onCreate !!!
         mMap.setOnMapLongClickListener(  new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
@@ -57,28 +142,47 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
             }
         });
 
-        // Getting LocationManager object from System Service LOCATION_SERVICE
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-        // Creating a criteria object to retrieve provider
-        Criteria criteria = new Criteria();
-
-        // Getting the name of the best provider
-        String provider = locationManager.getBestProvider(criteria, true);
-
-        // Getting Current Location
-        Location location = locationManager.getLastKnownLocation(provider);
-
-        if(location!=null){
-            onLocationChanged(location);
-
+        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if(mLastLocation != null){
             // Showing the current location in Google Map
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude())));
 
             // Zoom in the Google Map
             mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+        } else {
+            Toast.makeText(this,"No location detected", Toast.LENGTH_LONG).show();
         }
-        locationManager.requestLocationUpdates(provider, 20000, 0, this);
+    }
+
+    private void gotoLocation(double lat, double lng, float zoom) {
+        LatLng latLng = new LatLng(lat, lng);
+        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(latLng, zoom);
+        mMap.moveCamera(update);
+
+    }
+// Helpful tutorial used: https://www.youtube.com/watch?v=O5pxlyyyvbw
+    public void geoLocate(View v) {
+        String location = searchBox.getQuery().toString().trim();
+        Geocoder geo = new Geocoder(this);
+        List<Address> list = null;
+        try {
+            list = geo.getFromLocationName(location, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (list != null && list.size() > 0) {
+            Address addr = list.get(0);
+            String locality = addr.getLocality();
+
+            Toast.makeText(this, locality, Toast.LENGTH_LONG).show();
+
+            double lat = addr.getLatitude();
+            double lng = addr.getLongitude();
+            gotoLocation(lat, lng, DEFAULTZOOM);
+            drawMarker(new LatLng(lat, lng));
+        } else {
+            Toast.makeText(this, "Location not found", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -96,54 +200,16 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
     @Override
     protected void onPause() {
         super.onPause();
-        //stopLocationUpdates();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        setUpMapIfNeeded();
-        if (mGoogleApiClient.isConnected()) {
-            //startLocationUpdates();
-        }
     }
-
-    //TODO: Enable this code without the compilation errors so client can be suspended and restarted
-    /*
-    protected void startLocationUpdates() {
-        LocationServices.FusedLocationApi.requestLocationUpdates(
-                mGoogleApiClient, mLocationRequest, (com.google.android.gms.location.LocationListener) this);
-    }
-
-    protected void stopLocationUpdates() {
-        LocationServices.FusedLocationApi.removeLocationUpdates(
-                mGoogleApiClient, (com.google.android.gms.location.LocationListener) this);
-    }*/
-
-
-    public void onConnected(Bundle connectionHint) {
-        //startLocationUpdates();
-    }
-
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
 
     public void onMapLongClick(LatLng latlng) {
         drawMarker(latlng);
     }
-
-
-    protected void createLocationRequest() {
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(10000);
-        mLocationRequest.setFastestInterval(5000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-    }
-
 
     @Override
     public void onLocationChanged(Location location) {
@@ -174,40 +240,32 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
                 .title("ME"));
     }
 
+    public void onConnected(Bundle connectionHint) {
+    }
 
     @Override
-    public void onProviderDisabled(String provider) {
-        // TODO Auto-generated method stub
+    public void onConnectionSuspended(int i) {
+
     }
-
-
-    @Override
-    public void onProviderEnabled(String provider) {
-        // TODO Auto-generated method stub
-    }
-
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-        // TODO Auto-generated method stub
-    }
-
-
-    private void setUpMapIfNeeded() {
-        // Do a null check to confirm that we have not already instantiated the map.
-        if (mMap == null) {
-            // Try to obtain the map from the SupportMapFragment.
-            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
-                    .getMap();
-        }
-    }
-
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
     }
 
+    @Override
+    public void onProviderDisabled(String provider) {
+        // TODO Auto-generated method stub
+    }
 
+    @Override
+    public void onProviderEnabled(String provider) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        // TODO Auto-generated method stub
+    }
 
 }
