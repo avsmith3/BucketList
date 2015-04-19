@@ -61,10 +61,7 @@ public class newBucket extends ActionBarActivity {
 
     public void showBucketImage(View view){
         view.getId();
+        Toast.makeText(getApplicationContext(),"View tag :"+view.getTag(),Toast.LENGTH_SHORT).show();
         System.out.println("View tag :"+view.getTag());
-
-
-
-
     }
 }

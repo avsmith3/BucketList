@@ -20,8 +20,7 @@ public class DBHelper extends SQLiteOpenHelper{
     //public static final String CONTACTS_COLUMN_CITY = "place";
     //public static final String CONTACTS_COLUMN_PHONE = "phone";
 
-    public DBHelper(Context context)
-    {
+    public DBHelper(Context context){
         super(context, DATABASE_NAME , null, 1);
     }
 
@@ -33,8 +32,6 @@ public class DBHelper extends SQLiteOpenHelper{
                 "(id integer primary key, name text, latitude text, longitude text, desc text)"
 
         );
-
-
     }
 
     @Override
@@ -42,6 +39,8 @@ public class DBHelper extends SQLiteOpenHelper{
         db.execSQL("DROP TABLE IF EXISTS buckets");
         onCreate(db);
     }
+
+    //TODO: This needs to be DELETED, the table is incorrect
     public boolean addBucket(String name, String latitude, String longitude, String desc)
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -62,6 +61,7 @@ public class DBHelper extends SQLiteOpenHelper{
         Cursor res =  db.rawQuery( "select * from buckets where id="+id+"", null );
         return res;
     }
+
     public int numberOfRows(){
         SQLiteDatabase db = this.getReadableDatabase();
         int numRows = (int) DatabaseUtils.queryNumEntries(db, BUCKETS_TABLE_NAME);
@@ -102,7 +102,4 @@ public class DBHelper extends SQLiteOpenHelper{
         }
         return array_list;
     }
-
-
-
 }
