@@ -32,8 +32,8 @@ gradle-app.setting
 !gradle-wrapper.jar
 
 # more rules
-.idea/workspace.xml
-.idea/libraries
-.DS_Store
-.idea/misc.xml
-.idea/workspace.xml
+# .idea/workspace.xml
+# .idea/libraries
+# .DS_Store
+# .idea/misc.xml
+# .idea/workspace.xml
