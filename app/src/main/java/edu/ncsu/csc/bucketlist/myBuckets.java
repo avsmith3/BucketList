@@ -14,7 +14,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 
-public class myBuckets extends ActionBarActivity {
+public class MyBuckets extends ActionBarActivity {
 
     DBHelper mydb;
     private ListView obj;

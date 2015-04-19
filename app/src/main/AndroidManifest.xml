@@ -56,9 +56,8 @@
             android:name=".HomePage"
             android:label="@string/title_activity_home_page" >
         </activity>
-
         <activity
-            android:name=".myBuckets"
+            android:name=".MyBuckets"
             android:label="@string/title_activity_show_buckets"
             android:parentActivityName=".HomePage" >
             <meta-data
@@ -70,7 +69,7 @@
             android:label="@string/title_activity_display_bucket" >
         </activity>
         <activity
-            android:name=".newBucket"
+            android:name=".NewBucket"
             android:label="@string/title_activity_create_new_bucket" >
         </activity>
     </application>
