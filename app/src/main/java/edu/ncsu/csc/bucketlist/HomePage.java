@@ -71,12 +71,12 @@ public class HomePage extends MainActivity {
     }
     public void addBucket(View v)
     {
-        Intent intent = new Intent(this,AddBucket.class);
+        Intent intent = new Intent(this,newBucket.class);
         startActivity(intent);
     }
     public void showBuckets(View v)
     {
-        Intent intent = new Intent(this,ShowBuckets.class);
+        Intent intent = new Intent(this,myBuckets.class);
         startActivity(intent);
     }
 

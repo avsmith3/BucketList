@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Toast;
 
 
-public class Create_new_bucket extends ActionBarActivity {
+public class newBucket extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

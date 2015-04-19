@@ -65,7 +65,7 @@
                 android:value="edu.ncsu.csc.bucketlist.HomePage" />
         </activity>
         <activity
-            android:name=".ShowBuckets"
+            android:name=".myBuckets"
             android:label="@string/title_activity_show_buckets"
             android:parentActivityName=".HomePage" >
             <meta-data
@@ -77,7 +77,7 @@
             android:label="@string/title_activity_display_bucket" >
         </activity>
         <activity
-            android:name=".Create_new_bucket"
+            android:name=".newBucket"
             android:label="@string/title_activity_create_new_bucket" >
         </activity>
     </application>
