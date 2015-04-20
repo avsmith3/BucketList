@@ -12,6 +12,7 @@
     <string name="shareBucketsBtn">Share Buckets</string>
     <string name="topBucketsBtn">Top Buckets</string>
     <string name="settingsBtn">Settings</string>
+    <string name="logoutBtn">Log Out</string>
     <string name="btn_logout_from_google">Logout from Google</string>
     <string name="title_activity_add_bucket">AddBucket</string>
     <string name="hello_world">Hello world!</string>

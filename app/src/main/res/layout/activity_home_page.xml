@@ -7,59 +7,100 @@
     tools:context="edu.ncsu.csc.bucketlist.HomePage"
     android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/welcomeText"
-        android:id="@+id/welcome"
-        android:layout_gravity="center_horizontal" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:text="@string/myBucketsBtn"
         android:id="@+id/myBucketsBtn"
-        android:onClick="showBuckets" />
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:src="@drawable/mybuckets"
+        android:onClick="showBuckets"
+        android:contentDescription="@string/myBucketsBtn"/>
 
-    <Button
-        android:layout_width="match_parent"
+    <ImageButton
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:text="@string/newBucketBtn"
         android:id="@+id/newBucketBtn"
-        android:onClick="addBucket" />
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:src="@drawable/newbucket"
+        android:onClick="addBucket"
+        android:contentDescription="@string/newBucketBtn"/>
+    </LinearLayout>
 
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:text="@string/exploreMapBtn"
         android:id="@+id/exploreMapBtn"
-        android:onClick="exploreMap"/>
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:src="@drawable/exploremap"
+        android:onClick="exploreMap"
+        android:contentDescription="@string/exploreMapBtn"/>
 
-    <Button
-        android:layout_width="match_parent"
+    <ImageButton
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:text="@string/shareBucketsBtn"
-        android:id="@+id/shareBucketsBtn" />
+        android:id="@+id/shareBucketsBtn"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:src="@drawable/sharebuckets"
+        android:contentDescription="@string/shareBucketsBtn"/>
+    </LinearLayout>
 
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:text="@string/topBucketsBtn"
-        android:id="@+id/topBucketsBtn" />
+        android:id="@+id/topBucketsBtn"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:src="@drawable/topbuckets"
+        android:contentDescription="@string/topBucketsBtn"/>
 
-    <Button
-        android:layout_width="match_parent"
+  <!--  <ImageButton
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:text="@string/settingsBtn"
-        android:id="@+id/settingsBtn" />
+        android:id="@+id/settingsBtn"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:src="@drawable/settings"
+        android:contentDescription="@string/settingsBtn"/> -->
 
-    <Button
-        android:layout_width="match_parent"
+    <ImageButton
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Logout"
+        android:layout_weight="1"
+        android:text="@string/logoutBtn"
         android:onClick="signOutFromGplus"
-        android:id="@+id/logout_button" />
-
+        android:id="@+id/logout_button"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:src="@drawable/logout"
+        android:contentDescription="@string/logoutBtn"/>
+    </LinearLayout>
 
 </LinearLayout>

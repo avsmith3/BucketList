@@ -34,9 +34,10 @@ public class HomePage extends MainActivity {
         String userName = intent.getStringExtra(USER_NAME);
         String userEmail = intent.getStringExtra(USER_EMAIL);
 
-        String welcomeTxt = getResources().getString(R.string.welcomeText) + ", " + userName + "!";
-        TextView welcome = (TextView)findViewById(R.id.welcome);
-        welcome.setText(welcomeTxt);
+        if (userName != null) {
+            String welcomeTxt = getResources().getString(R.string.welcomeText) + ", " + userName + "!";
+            Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
+        }
     }
 
     protected void onStart() {
