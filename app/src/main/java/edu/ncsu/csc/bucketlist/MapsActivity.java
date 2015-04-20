@@ -25,14 +25,19 @@ import android.view.View.OnClickListener;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.PlaceLikelihood;
+import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.location.places.Place;
@@ -42,11 +47,14 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 
 public class MapsActivity extends FragmentActivity implements LocationListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback {
+
+    private static final String TAG = "BucketList App";
 
     /* Client used to interact with Google APIs. */
     private GoogleApiClient mGoogleApiClient;
@@ -135,10 +143,11 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
         mUiSettings.setMapToolbarEnabled(false);
         mMap.setMyLocationEnabled(true);
 
+        //TODO: not sure how we can do an info window when user drops a pin this way
         mMap.setOnMapLongClickListener(  new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
-                drawMarker(latLng);
+                drawMarker(latLng,"","");
             }
         });
 
@@ -152,6 +161,20 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
         } else {
             Toast.makeText(this,"No location detected", Toast.LENGTH_LONG).show();
         }
+
+        PendingResult<PlaceLikelihoodBuffer> result = Places.PlaceDetectionApi
+                .getCurrentPlace(mGoogleApiClient, null);
+        result.setResultCallback(new ResultCallback<PlaceLikelihoodBuffer>() {
+            @Override
+            public void onResult(PlaceLikelihoodBuffer likelyPlaces) {
+                for (PlaceLikelihood placeLikelihood : likelyPlaces) {
+                    Log.i(TAG, String.format("Place '%s' has likelihood: %g",
+                            placeLikelihood.getPlace().getName(),
+                            placeLikelihood.getLikelihood()));
+                }
+                likelyPlaces.release();
+            }
+        });
     }
 
     private void gotoLocation(double lat, double lng, float zoom) {
@@ -160,10 +183,11 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
         mMap.moveCamera(update);
 
     }
-// Helpful tutorial used: https://www.youtube.com/watch?v=O5pxlyyyvbw
+
+    // Helpful tutorial used: https://www.youtube.com/watch?v=O5pxlyyyvbw
     public void geoLocate(View v) {
         String location = searchBox.getQuery().toString().trim();
-        Geocoder geo = new Geocoder(this);
+        Geocoder geo = new Geocoder(this, Locale.getDefault());
         List<Address> list = null;
         try {
             list = geo.getFromLocationName(location, 1);
@@ -172,14 +196,30 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
         }
         if (list != null && list.size() > 0) {
             Address addr = list.get(0);
-            String locality = addr.getLocality();
-
-            Toast.makeText(this, locality, Toast.LENGTH_LONG).show();
+            String title = "";
+            if (addr.getMaxAddressLineIndex() > -1) {
+               title = addr.getAddressLine(0);
+            }
+            StringBuilder placeInfo = new StringBuilder("");
+            for (int i = 1; i < addr.getMaxAddressLineIndex(); i++) {
+                placeInfo.append("\n").append(addr.getAddressLine(i));
+            }
+            String phone = addr.getPhone();
+            String url = addr.getUrl();
+            if (phone != null) {
+                placeInfo.append("\n").append(phone);
+            }
+            if (url != null) {
+                placeInfo.append("\n").append(url);
+            }
+            Log.i(TAG, title);
+            Log.i(TAG, placeInfo.toString());
 
             double lat = addr.getLatitude();
             double lng = addr.getLongitude();
             gotoLocation(lat, lng, DEFAULTZOOM);
-            drawMarker(new LatLng(lat, lng));
+
+            drawMarker(new LatLng(lat, lng), title, placeInfo.toString());
         } else {
             Toast.makeText(this, "Location not found", Toast.LENGTH_LONG).show();
         }
@@ -208,7 +248,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
     }
 
     public void onMapLongClick(LatLng latlng) {
-        drawMarker(latlng);
+        drawMarker(latlng, "", "");
     }
 
     @Override
@@ -229,15 +269,22 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
     }
 
 
-    private void drawMarker(LatLng currentPosition){
+    private void drawMarker(LatLng currentPosition, String title, String info){
         // Remove any existing markercation locations on the map
-        mMap.clear();
+        //mMap.clear();
         //LatLng currentPosition = new LatLng(location.getLatitude(),location.getLongitude());
+        //TODO: It appears that I will have to create a custom InfoWindow so that we can have more than two lines
         mMap.addMarker(new MarkerOptions()
                 .position(currentPosition)
-                .snippet("Lat:" + currentPosition.latitude + "Lng:" + currentPosition.longitude)
+                .title(title)
+                .snippet(info)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-                .title("ME"));
+                .draggable(true));
+
+        // To draw a bucket icon on map use .icon(BitmapDescriptorFactory.fromResource(R.drawable.imagename_tiny)) instead
+
+        //TODO: Perhaps we can use OnMarkerDragListener to signal an add to bucket and popup buckets to "drop" pin into
+        // Change pin from generic Google pin to bucket pin after added to bucket?
     }
 
     public void onConnected(Bundle connectionHint) {
