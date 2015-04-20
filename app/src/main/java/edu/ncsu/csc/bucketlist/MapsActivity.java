@@ -278,8 +278,8 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
                 .position(currentPosition)
                 .title(title)
                 .snippet(info)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-                .draggable(true));
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+               // .draggable(true));
 
         // To draw a bucket icon on map use .icon(BitmapDescriptorFactory.fromResource(R.drawable.imagename_tiny)) instead
 
