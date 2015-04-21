@@ -11,14 +11,6 @@ import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper{
     public static final String DATABASE_NAME = "BucketLists.db";
-    public static final String BUCKETS_TABLE_NAME = "buckets";
-    public static final String BUCKETS_COLUMN_ID = "id";
-    public static final String BUCKETS_COLUMN_NAME = "name";
-    public static final String BUCKETS_COLUMN_LATITUDE = "latitude";
-    public static final String BUCKETS_COLUMN_LONGITUDE = "longitude";
-    public static final String BUCKETS_COLUMN_DESCRIPTION = "desc";
-    //public static final String CONTACTS_COLUMN_CITY = "place";
-    //public static final String CONTACTS_COLUMN_PHONE = "phone";
 
     public DBHelper(Context context){
         super(context, DATABASE_NAME , null, 1);
@@ -47,7 +39,10 @@ public class DBHelper extends SQLiteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS users");
         db.execSQL("DROP TABLE IF EXISTS buckets");
+        db.execSQL("DROP TABLE IF EXISTS bucketentries");
+        db.execSQL("DROP TABLE IF EXISTS bucketentryassociations");
         onCreate(db);
     }
 
