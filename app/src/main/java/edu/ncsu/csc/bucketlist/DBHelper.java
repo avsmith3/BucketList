@@ -29,7 +29,7 @@ public class DBHelper extends SQLiteOpenHelper{
         );
         db.execSQL(
                 "create table bucketentries " +
-                        "(id integer primary key autoincrement, name text, latitude text, longitude text, comment text, rating integer, visited boolean)"
+                        "(id integer primary key autoincrement, name text, latitude text, longitude text, comment text, rating integer, visited integer)"
         );
         db.execSQL(
                 "create table bucketentryassociations " +
@@ -93,7 +93,7 @@ public class DBHelper extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put("userid", latitude);
+        contentValues.put("userid", userid);
         contentValues.put("name", name);
         contentValues.put("image", image);
 
@@ -158,7 +158,7 @@ public class DBHelper extends SQLiteOpenHelper{
     /**
      * @return The entry id, or -1 on failure.
      */
-    public long addEntry(String name, String latitude, String longitude, String comment, int rating, boolean visited) {
+    public long addEntry(String name, String latitude, String longitude, String comment, int rating, int visited) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
@@ -180,6 +180,22 @@ public class DBHelper extends SQLiteOpenHelper{
         return db.delete("bucketentries",
                 "id = ? ",
                 new String[] { Long.toString(id) });
+    }
+
+    public EntryBean getEntry(long id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery( "select * from bucketentries where id = ?", new String[] { Long.toString(id) });
+        res.moveToFirst();
+        if (res.isAfterLast()) return null;
+        EntryBean bean = new EntryBean();
+        bean.id = res.getLong(res.getColumnIndex("id"));
+        bean.name = res.getString(res.getColumnIndex("name"));
+        bean.latitude = res.getString(res.getColumnIndex("latitude"));
+        bean.longitude = res.getString(res.getColumnIndex("longitude"));
+        bean.comment = res.getString(res.getColumnIndex("comment"));
+        bean.rating = res.getInt(res.getColumnIndex("rating"));
+        bean.visited = res.getInt(res.getColumnIndex("visited"));
+        return bean;
     }
 
 /* BUCKET ENTRY ASSOCIATIONS */
