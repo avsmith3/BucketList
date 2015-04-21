@@ -141,7 +141,36 @@ public class DBHelper extends SQLiteOpenHelper{
         return array_list;
     }
 
-/* BUCKET ENTRIES AND ASSOCIATIONS */
+/* BUCKET ENTRIES */
+
+    /**
+     * @return The entry id, or -1 on failure.
+     */
+    public long addEntry(String name, String latitude, String longitude, String comment, int rating, boolean visited) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put("name", name);
+        contentValues.put("latitude", latitude);
+        contentValues.put("longitude", longitude);
+        contentValues.put("comment", comment);
+        contentValues.put("rating", rating);
+        contentValues.put("visited", visited);
+
+        return db.insert("bucketentries", null, contentValues);
+    }
+
+    /**
+     * @return The number of rows affected. (Hint: zero is error, bucket did not exist.)
+     */
+    public int deleteEntry(long id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete("bucketentries",
+                "id = ? ",
+                new String[] { Long.toString(id) });
+    }
+
+/* BUCKET ENTRY ASSOCIATIONS */
 
     public void addToBucket(long entryid, long bucketid) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -157,6 +186,13 @@ public class DBHelper extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete("bucketentryassociations",
                 "entryid = ? , bucketid = ? ",
+                new String[] { Long.toString(entryid), Long.toString(bucketid) });
+    }
+
+    public int removeAllFromBucket(long bucketid) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete("bucketentryassociations",
+                "bucketid = ? ",
                 new String[] { Long.toString(entryid), Long.toString(bucketid) });
     }
 
