@@ -5,13 +5,16 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.content.Intent;
 
 
 public class NewBucket extends ActionBarActivity {
 
     private DBHelper mydb;
+    String imageTag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +35,8 @@ public class NewBucket extends ActionBarActivity {
 
     //TODO: Button click should add the bucket to database
     public void createButtonClick(View view){
-        /*if(mydb.addBucket(...))
+        long bucketId = mydb.addBucket(0, ((EditText) findViewById(R.id.bucketName)).getText().toString(), imageTag);
+        if(bucketId != -1)
         {
             Toast.makeText(getApplicationContext(),"New Bucket Created!",Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(),edu.ncsu.csc.bucketlist.HomePage.class);
@@ -41,7 +45,7 @@ public class NewBucket extends ActionBarActivity {
         else
         {
             Toast.makeText(getApplicationContext(),"Couldn't create new bucket!",Toast.LENGTH_SHORT).show();
-        }*/
+        }
     }
 
     @Override
@@ -61,6 +65,7 @@ public class NewBucket extends ActionBarActivity {
 
     public void showBucketImage(View view){
         ImageView userBucket = (ImageView) findViewById(R.id.userBucket);
+        imageTag = (String)view.getTag();
         if (view.getTag().equals("art")) {
             userBucket.setImageResource(R.drawable.art);
 

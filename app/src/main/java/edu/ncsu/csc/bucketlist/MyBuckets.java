@@ -24,7 +24,7 @@ public class MyBuckets extends ActionBarActivity {
         setContentView(R.layout.activity_show_buckets);
 
         mydb = new DBHelper(this);
-        ArrayList array_list = mydb.getAllBuckets();
+        ArrayList array_list = mydb.getAllBucketsForUser(0);
         ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,array_list);
 
         obj = (ListView)findViewById(R.id.listView1);
@@ -33,9 +33,9 @@ public class MyBuckets extends ActionBarActivity {
         obj.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                int id_to_search = arg2+1;
+                BucketBean bucket = (BucketBean)arg0.getItemAtPosition(arg2);
                 Bundle dataBundle = new Bundle();
-                dataBundle.putInt("id",id_to_search);
+                dataBundle.putLong("id", bucket.id);
                 Intent intent = new Intent(getApplicationContext(),edu.ncsu.csc.bucketlist.DisplayBucket.class);
                 intent.putExtras(dataBundle);
                 startActivity(intent);
