@@ -57,6 +57,7 @@ public class DBHelper extends SQLiteOpenHelper{
         bean.id = res.getLong(res.getColumnIndex("id"));
         bean.googleplusid = res.getString(res.getColumnIndex("googleplusid"));
         bean.facebookid = res.getString(res.getColumnIndex("facebookid"));
+        res.close();
         return bean;
     }
 
@@ -69,6 +70,7 @@ public class DBHelper extends SQLiteOpenHelper{
         bean.id = res.getLong(res.getColumnIndex("id"));
         bean.googleplusid = res.getString(res.getColumnIndex("googleplusid"));
         bean.facebookid = res.getString(res.getColumnIndex("facebookid"));
+        res.close();
         return bean;
     }
 
@@ -81,6 +83,7 @@ public class DBHelper extends SQLiteOpenHelper{
         bean.id = res.getLong(res.getColumnIndex("id"));
         bean.googleplusid = res.getString(res.getColumnIndex("googleplusid"));
         bean.facebookid = res.getString(res.getColumnIndex("facebookid"));
+        res.close();
         return bean;
     }
 
@@ -130,6 +133,7 @@ public class DBHelper extends SQLiteOpenHelper{
         bean.id = res.getLong(res.getColumnIndex("id"));
         bean.name = res.getString(res.getColumnIndex("name"));
         bean.image = res.getString(res.getColumnIndex("image"));
+        res.close();
         return bean;
     }
 
@@ -150,6 +154,7 @@ public class DBHelper extends SQLiteOpenHelper{
             array_list.add(bean);
             res.moveToNext();
         }
+        res.close();
         return array_list;
     }
 
@@ -195,6 +200,7 @@ public class DBHelper extends SQLiteOpenHelper{
         bean.comment = res.getString(res.getColumnIndex("comment"));
         bean.rating = res.getInt(res.getColumnIndex("rating"));
         bean.visited = res.getInt(res.getColumnIndex("visited"));
+        res.close();
         return bean;
     }
 
@@ -219,6 +225,7 @@ public class DBHelper extends SQLiteOpenHelper{
             array_list.add(bean);
             res.moveToNext();
         }
+        res.close();
         return array_list;
     }
 
