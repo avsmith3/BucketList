@@ -46,6 +46,18 @@ public class DBHelper extends SQLiteOpenHelper{
         onCreate(db);
     }
 
+    public UserBean getUser(long id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery( "select * from users where id = ?", new String[] { Long.toString(id) });
+        res.moveToFirst();
+        if (res.isAfterLast()) return null;
+        UserBean bean = new UserBean();
+        bean.id = res.getLong(res.getColumnIndex("id"));
+        bean.googleplusid = res.getString(res.getColumnIndex("googleplusid"));
+        bean.facebookid = res.getString(res.getColumnIndex("facebookid"));
+        return bean;
+    }
+
     public UserBean getUserFromGooglePlus(String googleplusid) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery( "select * from users where googleplusid = ?", new String[] { googleplusid });
@@ -73,8 +85,7 @@ public class DBHelper extends SQLiteOpenHelper{
     /**
      * @return The bucket id, or -1 on failure.
      */
-    public long addBucket(int userid, String name, String image)
-    {
+    public long addBucket(int userid, String name, String image) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
@@ -88,8 +99,7 @@ public class DBHelper extends SQLiteOpenHelper{
     /**
      * @return The number of rows affected. (Hint: zero is error, bucket did not exist.)
      */
-    public int updateBucket(long id, String name, String image)
-    {
+    public int updateBucket(long id, String name, String image) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         if (name != null) contentValues.put("name", name);
@@ -100,8 +110,7 @@ public class DBHelper extends SQLiteOpenHelper{
     /**
      * @return The number of rows affected. (Hint: zero is error, bucket did not exist.)
      */
-    public int deleteBucket(long id)
-    {
+    public int deleteBucket(long id) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete("buckets",
                 "id = ? ",
@@ -111,12 +120,11 @@ public class DBHelper extends SQLiteOpenHelper{
     /**
      * @return The list of buckets.
      */
-    public ArrayList<BucketBean> getAllBucketsForUser(long userid)
-    {
+    public ArrayList<BucketBean> getAllBucketsForUser(long userid) {
         ArrayList<BucketBean> array_list = new ArrayList();
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from buckets where userid=" + userid, null );
+        Cursor res = db.rawQuery( "select * from buckets where userid=" + userid, null );
         res.moveToFirst();
         while(res.isAfterLast() == false){
             BucketBean bean = new BucketBean();
