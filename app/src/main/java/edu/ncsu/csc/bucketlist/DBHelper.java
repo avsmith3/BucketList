@@ -28,9 +28,20 @@ public class DBHelper extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db)
     {
         db.execSQL(
+                "create table users " +
+                        "(id integer primary key autoincrement, googleplusid text)"
+        );
+        db.execSQL(
                 "create table buckets " +
-                "(id integer primary key, name text, latitude text, longitude text, desc text)"
-
+                        "(id integer primary key autoincrement, userid integer, name text, image text)"
+        );
+        db.execSQL(
+                "create table bucketentries " +
+                        "(id integer primary key autoincrement, name text, latitude text, longitude text, comment text, rating integer, visited boolean)"
+        );
+        db.execSQL(
+                "create table bucketentryassociations " +
+                        "(bucketid integer, entryid integer)"
         );
     }
 
