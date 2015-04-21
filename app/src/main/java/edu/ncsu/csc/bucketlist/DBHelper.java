@@ -46,6 +46,8 @@ public class DBHelper extends SQLiteOpenHelper{
         onCreate(db);
     }
 
+/* USERS */
+
     public UserBean getUser(long id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery( "select * from users where id = ?", new String[] { Long.toString(id) });
@@ -81,6 +83,8 @@ public class DBHelper extends SQLiteOpenHelper{
         bean.facebookid = res.getString(res.getColumnIndex("facebookid"));
         return bean;
     }
+
+/* BUCKETS */
 
     /**
      * @return The bucket id, or -1 on failure.
@@ -136,4 +140,24 @@ public class DBHelper extends SQLiteOpenHelper{
         }
         return array_list;
     }
+
+/* BUCKET ENTRIES AND ASSOCIATIONS */
+
+    public void addToBucket(long entryid, long bucketid) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put("entryid", entryid);
+        contentValues.put("bucketid", bucketid);
+
+        db.insert("bucketentryassociations", null, contentValues);
+    }
+
+    public int removeFromBucket(long entryid, long bucketid) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete("bucketentryassociations",
+                "entryid = ? , bucketid = ? ",
+                new String[] { Long.toString(entryid), Long.toString(bucketid) });
+    }
+
 }
