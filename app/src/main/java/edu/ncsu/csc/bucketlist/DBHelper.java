@@ -61,6 +61,18 @@ public class DBHelper extends SQLiteOpenHelper{
         return db.insert("buckets", null, contentValues);
     }
 
+    /**
+     * @return The number of rows affected. (Hint: zero is error, bucket did not exist.)
+     */
+    public int updateBucket(long id, String name, String image)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        if (name != null) contentValues.put("name", name);
+        if (image != null) contentValues.put("image", image);
+        return db.update("buckets", contentValues, "id = ? ", new String[] { Long.toString(id) });
+    }
+
     public Cursor getData(int id){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery( "select * from buckets where id="+id+"", null );
