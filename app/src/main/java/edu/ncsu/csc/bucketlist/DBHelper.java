@@ -73,6 +73,17 @@ public class DBHelper extends SQLiteOpenHelper{
         return db.update("buckets", contentValues, "id = ? ", new String[] { Long.toString(id) });
     }
 
+    /**
+     * @return The number of rows affected. (Hint: zero is error, bucket did not exist.)
+     */
+    public int deleteBucket(long id)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete("buckets",
+                "id = ? ",
+                new String[] { Long.toString(id) });
+    }
+
     public Cursor getData(int id){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery( "select * from buckets where id="+id+"", null );
@@ -96,14 +107,6 @@ public class DBHelper extends SQLiteOpenHelper{
         //contentValues.put("place", place);
         db.update("buckets", contentValues, "id = ? ", new String[] { Integer.toString(id) } );
         return true;
-    }
-
-    public Integer deleteBucket (Integer id)
-    {
-        SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete("buckets",
-                "id = ? ",
-                new String[] { Integer.toString(id) });
     }
 
     public ArrayList getAllBuckets()
