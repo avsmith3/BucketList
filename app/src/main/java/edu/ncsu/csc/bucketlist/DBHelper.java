@@ -21,7 +21,7 @@ public class DBHelper extends SQLiteOpenHelper{
     {
         db.execSQL(
                 "create table users " +
-                        "(id integer primary key autoincrement, googleplusid text)"
+                        "(id integer primary key autoincrement, googleplusid text, facebbookid text)"
         );
         db.execSQL(
                 "create table buckets " +
@@ -44,6 +44,30 @@ public class DBHelper extends SQLiteOpenHelper{
         db.execSQL("DROP TABLE IF EXISTS bucketentries");
         db.execSQL("DROP TABLE IF EXISTS bucketentryassociations");
         onCreate(db);
+    }
+
+    public UserBean getUserFromGooglePlus(String googleplusid) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery( "select * from users where googleplusid = ?", new String[] { googleplusid });
+        res.moveToFirst();
+        if (res.isAfterLast()) return null;
+        UserBean bean = new UserBean();
+        bean.id = res.getLong(res.getColumnIndex("id"));
+        bean.googleplusid = res.getString(res.getColumnIndex("googleplusid"));
+        bean.facebookid = res.getString(res.getColumnIndex("facebookid"));
+        return bean;
+    }
+
+    public UserBean getUserFromFacebook(String facebookid) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery( "select * from users where facebookid = ?", new String[] { facebookid });
+        res.moveToFirst();
+        if (res.isAfterLast()) return null;
+        UserBean bean = new UserBean();
+        bean.id = res.getLong(res.getColumnIndex("id"));
+        bean.googleplusid = res.getString(res.getColumnIndex("googleplusid"));
+        bean.facebookid = res.getString(res.getColumnIndex("facebookid"));
+        return bean;
     }
 
     /**
