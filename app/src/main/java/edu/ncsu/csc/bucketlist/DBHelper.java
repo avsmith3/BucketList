@@ -84,18 +84,9 @@ public class DBHelper extends SQLiteOpenHelper{
                 new String[] { Long.toString(id) });
     }
 
-    public Cursor getData(int id){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from buckets where id="+id+"", null );
-        return res;
-    }
-
-    public int numberOfRows(){
-        SQLiteDatabase db = this.getReadableDatabase();
-        int numRows = (int) DatabaseUtils.queryNumEntries(db, BUCKETS_TABLE_NAME);
-        return numRows;
-    }
-
+    /**
+     * @return The list of buckets.
+     */
     public ArrayList<BucketBean> getAllBucketsForUser(long userid)
     {
         ArrayList<BucketBean> array_list = new ArrayList();
