@@ -138,6 +138,8 @@
         android:layout_height="wrap_content"
         android:hint="Enter Bucket Name"
         android:id="@+id/bucketName"
+        android:inputType="textImeMultiLine"
+        android:singleLine="true"
         android:layout_gravity="center_horizontal"/>
 
     <Button
