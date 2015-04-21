@@ -46,20 +46,19 @@ public class DBHelper extends SQLiteOpenHelper{
         onCreate(db);
     }
 
-    //TODO: This needs to be DELETED, the table is incorrect
-    public boolean addBucket(String name, String latitude, String longitude, String desc)
+    /**
+     * @return The bucket id, or -1 on failure.
+     */
+    public long addBucket(int userid, String name, String image)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
+        contentValues.put("userid", latitude);
         contentValues.put("name", name);
-        contentValues.put("latitude", latitude);
-        contentValues.put("longitude", longitude);
-        contentValues.put("desc", desc);
-        //contentValues.put("place", place);
+        contentValues.put("image", image);
 
-        db.insert("buckets", null, contentValues);
-        return true;
+        return db.insert("buckets", null, contentValues);
     }
 
     public Cursor getData(int id){
