@@ -137,7 +137,7 @@ public class DBHelper extends SQLiteOpenHelper{
      * @return The list of buckets.
      */
     public ArrayList<BucketBean> getAllBucketsForUser(long userid) {
-        ArrayList<BucketBean> array_list = new ArrayList();
+        ArrayList<BucketBean> array_list = new ArrayList<BucketBean>();
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery( "select * from buckets where userid=" + userid, null );
@@ -198,6 +198,30 @@ public class DBHelper extends SQLiteOpenHelper{
         return bean;
     }
 
+    /**
+     * @return The list of buckets.
+     */
+    public ArrayList<EntryBean> getEntriesFor(long bucketid) {
+        ArrayList<EntryBean> array_list = new ArrayList<EntryBean>();
+        //hp = new HashMap();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery( "select * from bucketentries left join bucketentryassociations where bucketentryassociations.bucketid = ? and bucketentryassociations.entryid = bucketentries.id", new String[] { Long.toString(bucketid) });
+        res.moveToFirst();
+        while(res.isAfterLast() == false){
+            EntryBean bean = new EntryBean();
+            bean.id = res.getLong(res.getColumnIndex("id"));
+            bean.name = res.getString(res.getColumnIndex("name"));
+            bean.latitude = res.getString(res.getColumnIndex("latitude"));
+            bean.longitude = res.getString(res.getColumnIndex("longitude"));
+            bean.comment = res.getString(res.getColumnIndex("comment"));
+            bean.rating = res.getInt(res.getColumnIndex("rating"));
+            bean.visited = res.getInt(res.getColumnIndex("visited"));
+            array_list.add(bean);
+            res.moveToNext();
+        }
+        return array_list;
+    }
+
 /* BUCKET ENTRY ASSOCIATIONS */
 
     public void addToBucket(long entryid, long bucketid) {
@@ -221,7 +245,7 @@ public class DBHelper extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete("bucketentryassociations",
                 "bucketid = ? ",
-                new String[] { Long.toString(entryid), Long.toString(bucketid) });
+                new String[] { Long.toString(bucketid), Long.toString(bucketid) });
     }
 
 }
