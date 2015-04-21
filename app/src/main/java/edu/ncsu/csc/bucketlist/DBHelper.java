@@ -96,28 +96,19 @@ public class DBHelper extends SQLiteOpenHelper{
         return numRows;
     }
 
-    public boolean updateBucket (Integer id, String name, String latitude, String longitude, String desc)
+    public ArrayList<BucketBean> getAllBucketsForUser(long userid)
     {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("name", name);
-        contentValues.put("latitude", latitude);
-        contentValues.put("longitude", longitude);
-        contentValues.put("desc", desc);
-        //contentValues.put("place", place);
-        db.update("buckets", contentValues, "id = ? ", new String[] { Integer.toString(id) } );
-        return true;
-    }
-
-    public ArrayList getAllBuckets()
-    {
-        ArrayList array_list = new ArrayList();
+        ArrayList<BucketBean> array_list = new ArrayList();
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from buckets", null );
+        Cursor res =  db.rawQuery( "select * from buckets where userid=" + userid, null );
         res.moveToFirst();
         while(res.isAfterLast() == false){
-            array_list.add(res.getString(res.getColumnIndex(BUCKETS_COLUMN_NAME)));
+            BucketBean bean = new BucketBean();
+            bean.id = res.getLong(res.getColumnIndex("id"));
+            bean.name = res.getString(res.getColumnIndex("name"));
+            bean.image = res.getString(res.getColumnIndex("image"));
+            array_list.add(bean);
             res.moveToNext();
         }
         return array_list;
