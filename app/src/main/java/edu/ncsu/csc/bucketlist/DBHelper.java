@@ -121,6 +121,18 @@ public class DBHelper extends SQLiteOpenHelper{
                 new String[] { Long.toString(id) });
     }
 
+    public BucketBean getBucket(long id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery( "select * from buckets where id = ?", new String[] { Long.toString(id) });
+        res.moveToFirst();
+        if (res.isAfterLast()) return null;
+        BucketBean bean = new BucketBean();
+        bean.id = res.getLong(res.getColumnIndex("id"));
+        bean.name = res.getString(res.getColumnIndex("name"));
+        bean.image = res.getString(res.getColumnIndex("image"));
+        return bean;
+    }
+
     /**
      * @return The list of buckets.
      */
