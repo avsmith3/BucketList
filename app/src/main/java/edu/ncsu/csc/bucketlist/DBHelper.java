@@ -29,7 +29,7 @@ public class DBHelper extends SQLiteOpenHelper{
         );
         db.execSQL(
                 "create table bucketentries " +
-                        "(id integer primary key autoincrement, name text, latitude text, longitude text, comment text, rating integer, visited integer)"
+                        "(id integer primary key autoincrement, name text, latitude integer, longitude integer, comment text, rating integer, visited integer)"
         );
         db.execSQL(
                 "create table bucketentryassociations " +
@@ -47,6 +47,17 @@ public class DBHelper extends SQLiteOpenHelper{
     }
 
 /* USERS */
+
+    public long addUser(String name, String googleplusid, String facebookid) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put("name", name);
+        contentValues.put("googleplusid", googleplusid);
+        contentValues.put("facebookid", facebookid);
+
+        return db.insert("users", null, contentValues);
+    }
 
     public UserBean getUser(long id) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -92,7 +103,7 @@ public class DBHelper extends SQLiteOpenHelper{
     /**
      * @return The bucket id, or -1 on failure.
      */
-    public long addBucket(int userid, String name, String image) {
+    public long addBucket(long userid, String name, String image) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
@@ -163,7 +174,7 @@ public class DBHelper extends SQLiteOpenHelper{
     /**
      * @return The entry id, or -1 on failure.
      */
-    public long addEntry(String name, String latitude, String longitude, String comment, int rating, int visited) {
+    public long addEntry(String name, double latitude, double longitude, String comment, int rating, int visited) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
@@ -195,8 +206,8 @@ public class DBHelper extends SQLiteOpenHelper{
         EntryBean bean = new EntryBean();
         bean.id = res.getLong(res.getColumnIndex("id"));
         bean.name = res.getString(res.getColumnIndex("name"));
-        bean.latitude = res.getString(res.getColumnIndex("latitude"));
-        bean.longitude = res.getString(res.getColumnIndex("longitude"));
+        bean.latitude = res.getDouble(res.getColumnIndex("latitude"));
+        bean.longitude = res.getDouble(res.getColumnIndex("longitude"));
         bean.comment = res.getString(res.getColumnIndex("comment"));
         bean.rating = res.getInt(res.getColumnIndex("rating"));
         bean.visited = res.getInt(res.getColumnIndex("visited"));
@@ -217,8 +228,8 @@ public class DBHelper extends SQLiteOpenHelper{
             EntryBean bean = new EntryBean();
             bean.id = res.getLong(res.getColumnIndex("id"));
             bean.name = res.getString(res.getColumnIndex("name"));
-            bean.latitude = res.getString(res.getColumnIndex("latitude"));
-            bean.longitude = res.getString(res.getColumnIndex("longitude"));
+            bean.latitude = res.getDouble(res.getColumnIndex("latitude"));
+            bean.longitude = res.getDouble(res.getColumnIndex("longitude"));
             bean.comment = res.getString(res.getColumnIndex("comment"));
             bean.rating = res.getInt(res.getColumnIndex("rating"));
             bean.visited = res.getInt(res.getColumnIndex("visited"));

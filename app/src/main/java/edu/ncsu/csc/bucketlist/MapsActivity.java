@@ -1,5 +1,6 @@
 package edu.ncsu.csc.bucketlist;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
@@ -9,6 +10,11 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
@@ -23,6 +29,7 @@ import com.google.android.gms.location.places.PlaceLikelihood;
 import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -33,6 +40,7 @@ import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -49,10 +57,13 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private UiSettings mUiSettings;
 
-    private RelativeLayout layout;
     private SearchView searchBox;
     private static final float DEFAULTZOOM = 15;
-
+    private ArrayList<Marker> mapMarkers = new ArrayList<Marker>();
+    private DBHelper mydb;
+    private ListView list;
+    private LinearLayout listLayout;
+    private Marker clickedMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,18 +89,10 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
 
         mapFragment.getMapAsync(this);
 
-        searchBox = new SearchView(MapsActivity.this);
-        layout = (RelativeLayout) findViewById(R.id.maps_layout);
+        searchBox = (SearchView)findViewById(R.id.searchBox);
 
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                (int) RadioGroup.LayoutParams.WRAP_CONTENT, (int) RadioGroup.LayoutParams.WRAP_CONTENT);
-        params.setMargins(15, 15, 0, 0);
-        searchBox.setQueryHint("Enter Location");
         searchBox.setBackgroundColor(Color.WHITE);
         searchBox.getBackground().setAlpha(205);
-
-        searchBox.setLayoutParams(params);
-        layout.addView(searchBox);
 
 
         //***setOnQueryTextListener***
@@ -116,6 +119,48 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
             }
         });
 
+        mydb = new DBHelper(this);
+        listLayout = (LinearLayout) findViewById(R.id.list_layout);
+
+        ArrayList array_list = mydb.getAllBucketsForUser(0);
+        ArrayAdapter arrayAdapter = new ArrayAdapter(MapsActivity.this, android.R.layout.simple_list_item_1, array_list);
+
+        list = (ListView) findViewById(R.id.mapsListView);
+        list.setAdapter(arrayAdapter);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                BucketBean bucket = (BucketBean) arg0.getItemAtPosition(arg2);
+                String tag = bucket.image;
+                if (clickedMarker != null) {
+                    long entryId = mydb.addEntry(clickedMarker.getTitle(), clickedMarker.getPosition().latitude, clickedMarker.getPosition().longitude, "", 0, 0);
+                    if (entryId != -1) {
+                        mydb.addToBucket(entryId, bucket.id);
+                        Toast.makeText(MapsActivity.this, "Location added to " + bucket.name + " bucket!", Toast.LENGTH_LONG).show();
+                    }
+
+                    listLayout.setVisibility(View.GONE);
+                    // force redraw
+                    //findViewById(R.id.maps_layout).invalidate();
+
+                    // replace icon of marker to represent bucket
+                    LatLng markerPosition = clickedMarker.getPosition();
+                    String title = clickedMarker.getTitle();
+                    String snippet = clickedMarker.getSnippet();
+                  /*  clickedMarker.setIcon(?);
+                  or clickedMarker.remove();
+                    Marker newMarker = mMap.addMarker(new MarkerOptions()
+                            .position(markerPosition)
+                            .title(title)
+                            .snippet(snippet)
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.?));*/
+                }
+            }
+        });
+
+
+
      }
 
     @Override
@@ -130,14 +175,6 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
         mUiSettings.setMapToolbarEnabled(false);
         mMap.setMyLocationEnabled(true);
         mMap.setOnMyLocationChangeListener(this);
-        //TODO: not sure how we can do an info window when user drops a pin this way
-        mMap.setOnMapLongClickListener(  new GoogleMap.OnMapLongClickListener() {
-            @Override
-            public void onMapLongClick(LatLng latLng) {
-                drawMarker(latLng,"","");
-            }
-        });
-
         Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if(mLastLocation != null){
             lastLocalKnownLocation = mLastLocation;
@@ -145,11 +182,31 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
             mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude())));
 
             // Zoom in the Google Map
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULTZOOM));
         } else {
             Toast.makeText(this,"No location detected", Toast.LENGTH_LONG).show();
         }
 
+        map.setOnMapLongClickListener(new OnMapLongClickListener() {
+
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+                clickedMarker = null;
+                for (Marker marker : mapMarkers) {
+                    if (Math.abs(marker.getPosition().latitude - latLng.latitude) < 0.05 && Math.abs(marker.getPosition().longitude - latLng.longitude) < 0.05) {
+                        Toast.makeText(MapsActivity.this, "got clicked", Toast.LENGTH_SHORT).show(); //do some stuff
+                        clickedMarker = marker;
+                        break;
+                    }
+                }
+                if (clickedMarker != null) {
+                    listLayout.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
+
+/* // Not necessary - just testing it out - provides places near user's current location
         PendingResult<PlaceLikelihoodBuffer> result = Places.PlaceDetectionApi
                 .getCurrentPlace(mGoogleApiClient, null);
         result.setResultCallback(new ResultCallback<PlaceLikelihoodBuffer>() {
@@ -162,7 +219,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
                 }
                 likelyPlaces.release();
             }
-        });
+        });*/
     }
 
     private void gotoLocation(double lat, double lng, float zoom) {
@@ -202,6 +259,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
             }
             Log.i(TAG, title);
             Log.i(TAG, placeInfo.toString());
+            Log.i(TAG, addr.getFeatureName());
 
             double lat = addr.getLatitude();
             double lng = addr.getLongitude();
@@ -235,21 +293,18 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
         super.onResume();
     }
 
-    public void onMapLongClick(LatLng latlng) {
-        drawMarker(latlng, "", "");
-    }
-
     private void drawMarker(LatLng currentPosition, String title, String info){
         // Remove any existing markercation locations on the map
         //mMap.clear();
         //LatLng currentPosition = new LatLng(location.getLatitude(),location.getLongitude());
         //TODO: It appears that I will have to create a custom InfoWindow so that we can have more than two lines
-        mMap.addMarker(new MarkerOptions()
+        Marker newMarker = mMap.addMarker(new MarkerOptions()
                 .position(currentPosition)
                 .title(title)
                 .snippet(info)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-               // .draggable(true));
+
+        mapMarkers.add(newMarker);
 
         // To draw a bucket icon on map use .icon(BitmapDescriptorFactory.fromResource(R.drawable.imagename_tiny)) instead
 

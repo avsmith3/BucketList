@@ -9,9 +9,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 
 public class DisplayBucket extends ActionBarActivity {
@@ -27,6 +31,8 @@ public class DisplayBucket extends ActionBarActivity {
         setContentView(R.layout.activity_display_bucket);
 
         mydb = new DBHelper(this);
+
+
         Bundle extras = getIntent().getExtras();
 
         if(extras!=null)
@@ -38,6 +44,12 @@ public class DisplayBucket extends ActionBarActivity {
                 id_to_update = value;
 
                 setTitle(bucket.name);
+
+                ArrayList entries = mydb.getEntriesFor(value);
+                ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, entries);
+
+                ListView list = (ListView)findViewById(R.id.bucketList);
+                list.setAdapter(arrayAdapter);
 
 
             }

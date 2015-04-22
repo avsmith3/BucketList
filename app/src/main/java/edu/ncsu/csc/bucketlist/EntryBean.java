@@ -6,9 +6,15 @@ package edu.ncsu.csc.bucketlist;
 public class EntryBean {
     public long id;
     public String name;
-    public String latitude;
-    public String longitude;
+    public double latitude;
+    public double longitude;
     public String comment;
     public int rating;
     public int visited;
+
+    @Override
+    public String toString()
+    {
+        return name;
+    }
 }

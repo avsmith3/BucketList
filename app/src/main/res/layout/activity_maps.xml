@@ -1,12 +1,59 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:id="@+id/maps_layout">
+    android:id="@+id/maps_layout"
+    android:orientation="vertical">
 
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:id="@+id/map"
-    tools:context="edu.ncsu.csc.bucketlist.MapsActivity"
-    android:name="com.google.android.gms.maps.SupportMapFragment" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1.0"
+        android:orientation="vertical" >
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
 
-</RelativeLayout>
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment" />
+
+            <SearchView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15px"
+                android:layout_marginTop="15px"
+                android:layout_marginRight="0px"
+                android:layout_marginBottom="0px"
+                android:queryHint="Enter Location"
+                android:id="@+id/searchBox">
+            </SearchView>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1.0"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:id="@+id/list_layout">
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="@android:color/white"
+        android:drawSelectorOnTop="true"
+        android:dividerHeight="1dp"
+        android:divider="@android:color/darker_gray"
+        android:background="@android:color/transparent"
+        android:id="@+id/mapsListView">
+
+        </ListView>
+
+    </LinearLayout>
+
+</LinearLayout>
