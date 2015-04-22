@@ -36,7 +36,7 @@ public class TopBuckets extends ActionBarActivity {
 
         ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, topPlaces);
 
-        ListView topPlacesList = (ListView)findViewById(R.id.listView1);
+        ListView topPlacesList = (ListView)findViewById(R.id.topBucketListView);
         topPlacesList.setAdapter(arrayAdapter);
     }
 

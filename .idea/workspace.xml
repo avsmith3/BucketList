@@ -95,34 +95,16 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TopBuckets.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="TopBuckets.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/TopBuckets.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="381" max-vertical-offset="1207">
-              <caret line="26" column="50" selection-start-line="26" selection-start-column="50" selection-end-line="26" selection-end-column="50" />
+            <state vertical-scroll-proportion="0.7797927" vertical-offset="345" max-vertical-offset="1207">
+              <caret line="38" column="78" selection-start-line="38" selection-start-column="78" selection-end-line="38" selection-end-column="78" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#604#615#0" expanded="true" />
               </folding>
             </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="activity_top_buckets.xml" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_top_buckets.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.52089137" vertical-offset="0" max-vertical-offset="359">
-              <caret line="11" column="42" selection-start-line="11" selection-start-column="42" selection-end-line="11" selection-end-column="42" />
-              <folding>
-                <element signature="e#223#258#0" expanded="true" />
-                <element signature="e#284#319#0" expanded="true" />
-                <element signature="e#343#376#0" expanded="true" />
-                <element signature="e#403#436#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer">
-            <state />
           </provider>
         </entry>
       </file>
@@ -1628,11 +1610,11 @@
         <option value="$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/EntryBean.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/DBHelper.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/TopBuckets.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_home_page.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/HomePage.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/MapsActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_top_buckets.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/TopBuckets.java" />
       </list>
     </option>
   </component>
@@ -2543,17 +2525,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/TopBuckets.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="381" max-vertical-offset="1207">
-          <caret line="26" column="50" selection-start-line="26" selection-start-column="50" selection-end-line="26" selection-end-column="50" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#604#615#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/DBHelper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2625" max-vertical-offset="4641">
@@ -2594,20 +2565,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/MapsActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.714286" vertical-offset="2486" max-vertical-offset="6885">
-          <caret line="156" column="72" selection-start-line="156" selection-start-column="72" selection-end-line="156" selection-end-column="72" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#8335#8778#0" expanded="true" />
-            <element signature="e#8767#8768#0" expanded="true" />
-            <element signature="e#8820#9564#0" expanded="true" />
-            <element signature="e#9553#9554#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_top_buckets.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.52089137" vertical-offset="0" max-vertical-offset="359">
@@ -2622,6 +2579,31 @@
       </provider>
       <provider editor-type-id="android-designer">
         <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/MapsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.714286" vertical-offset="2486" max-vertical-offset="6885">
+          <caret line="156" column="72" selection-start-line="156" selection-start-column="72" selection-end-line="156" selection-end-column="72" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#8335#8778#0" expanded="true" />
+            <element signature="e#8767#8768#0" expanded="true" />
+            <element signature="e#8820#9564#0" expanded="true" />
+            <element signature="e#9553#9554#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/TopBuckets.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7797927" vertical-offset="345" max-vertical-offset="1207">
+          <caret line="38" column="78" selection-start-line="38" selection-start-column="78" selection-end-line="38" selection-end-column="78" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#604#615#0" expanded="true" />
+          </folding>
+        </state>
       </provider>
     </entry>
   </component>
