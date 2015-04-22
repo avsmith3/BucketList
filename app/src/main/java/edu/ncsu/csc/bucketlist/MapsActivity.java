@@ -151,7 +151,8 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
                 BucketBean bucket = (BucketBean) arg0.getItemAtPosition(arg2);
                 String tag = bucket.image;
                 if (clickedMarker != null) {
-                    long entryId = mydb.addEntry(clickedMarker.getTitle(), clickedMarker.getPosition().latitude, clickedMarker.getPosition().longitude, "", 0, 0);
+                    long entryId = mydb.addEntry(clickedMarker.getTitle(), clickedMarker.getPosition().latitude,
+                            clickedMarker.getPosition().longitude, "", 0, 0, clickedMarker.getTitle(), clickedMarker.getSnippet());
                     if (entryId != -1) {
                         mydb.addToBucket(entryId, bucket.id);
                         Toast.makeText(MapsActivity.this, "Location added to " + bucket.name + " bucket!", Toast.LENGTH_LONG).show();
@@ -216,6 +217,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
             }
         });
 
+        loadMarkers();
 /* // Not necessary - just testing it out - provides places near user's current location
         PendingResult<PlaceLikelihoodBuffer> result = Places.PlaceDetectionApi
                 .getCurrentPlace(mGoogleApiClient, null);
@@ -321,6 +323,26 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
     }
 
     public void loadMarkers(){
+        // TODO: change to real userId
+        ArrayList<BucketBean> userBuckets = mydb.getAllBucketsForUser(0);
+        // for each bucket
+        for (int i = 0; i < userBuckets.size(); i++) {
+            BucketBean bucket = (BucketBean) userBuckets.get(i);
+            int bucketIcon = hashMap.get(bucket.image).get(0);
+            ArrayList<EntryBean> bucketEntries = mydb.getEntriesFor(bucket.id);
+            for (int j = 0; j < bucketEntries.size(); j++) {
+                // draw markers for places in bucket
+                EntryBean entry = (EntryBean) bucketEntries.get(j);
+                LatLng position = new LatLng(entry.latitude, entry.longitude);
+                mMap.addMarker(new MarkerOptions()
+                        .position(position)
+                        .title(entry.infoTitle)
+                        .snippet(entry.infoSnippet)
+                        .icon(BitmapDescriptorFactory.fromResource(bucketIcon)));
+
+            }
+        }
+        // for each userBucket create markers for each place in bucket using correct image
 
     }
 

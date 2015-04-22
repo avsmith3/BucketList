@@ -29,7 +29,7 @@ public class DBHelper extends SQLiteOpenHelper{
         );
         db.execSQL(
                 "create table bucketentries " +
-                        "(id integer primary key autoincrement, name text, latitude real, longitude real, comment text, rating integer, visited integer)"
+                        "(id integer primary key autoincrement, name text, latitude real, longitude real, comment text, rating integer, visited integer, infoTitle text, infoSnippet text)"
         );
         db.execSQL(
                 "create table bucketentryassociations " +
@@ -174,7 +174,8 @@ public class DBHelper extends SQLiteOpenHelper{
     /**
      * @return The entry id, or -1 on failure.
      */
-    public long addEntry(String name, double latitude, double longitude, String comment, int rating, int visited) {
+    public long addEntry(String name, double latitude, double longitude, String comment, int rating,
+                         int visited, String infoTitle, String infoSnippet) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
@@ -184,6 +185,8 @@ public class DBHelper extends SQLiteOpenHelper{
         contentValues.put("comment", comment);
         contentValues.put("rating", rating);
         contentValues.put("visited", visited);
+        contentValues.put("infoTitle", infoTitle);
+        contentValues.put("infoSnippet", infoSnippet);
 
         return db.insert("bucketentries", null, contentValues);
     }
@@ -211,6 +214,8 @@ public class DBHelper extends SQLiteOpenHelper{
         bean.comment = res.getString(res.getColumnIndex("comment"));
         bean.rating = res.getInt(res.getColumnIndex("rating"));
         bean.visited = res.getInt(res.getColumnIndex("visited"));
+        bean.infoTitle = res.getString(res.getColumnIndex("infoTitle"));
+        bean.infoSnippet = res.getString(res.getColumnIndex("infoSnippet"));
         res.close();
         return bean;
     }
@@ -233,6 +238,8 @@ public class DBHelper extends SQLiteOpenHelper{
             bean.comment = res.getString(res.getColumnIndex("comment"));
             bean.rating = res.getInt(res.getColumnIndex("rating"));
             bean.visited = res.getInt(res.getColumnIndex("visited"));
+            bean.infoTitle = res.getString(res.getColumnIndex("infoTitle"));
+            bean.infoSnippet = res.getString(res.getColumnIndex("infoSnippet"));
             array_list.add(bean);
             res.moveToNext();
         }

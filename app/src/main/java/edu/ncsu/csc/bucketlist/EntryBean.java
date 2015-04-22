@@ -11,6 +11,8 @@ public class EntryBean {
     public String comment;
     public int rating;
     public int visited;
+    public String infoTitle;
+    public String infoSnippet;
 
     @Override
     public String toString()
