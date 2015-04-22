@@ -154,7 +154,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
                 String tag = bucket.image;
                 if (clickedMarker != null) {
                     long entryId = mydb.addEntry(clickedMarker.getTitle(), clickedMarker.getPosition().latitude,
-                            clickedMarker.getPosition().longitude, "", 5, 0, clickedMarker.getTitle(), clickedMarker.getSnippet());
+                            clickedMarker.getPosition().longitude, "", 0, 0, clickedMarker.getTitle(), clickedMarker.getSnippet());
                     if (entryId != -1) {
                         mydb.addToBucket(entryId, bucket.id);
                         Toast.makeText(MapsActivity.this, "Location added to " + bucket.name + " bucket!", Toast.LENGTH_LONG).show();
