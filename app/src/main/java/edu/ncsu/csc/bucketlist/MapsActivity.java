@@ -29,6 +29,7 @@ import com.google.android.gms.location.places.PlaceLikelihood;
 import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
@@ -68,6 +69,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
     private LinearLayout listLayout;
     private Marker clickedMarker;
     private HashMap<String, ArrayList<Integer>> hashMap;
+    private Marker lastClicked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -197,6 +199,20 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
         } else {
             Toast.makeText(this,"No location detected", Toast.LENGTH_LONG).show();
         }
+
+        map.setOnMarkerClickListener(new OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                if (lastClicked != null && lastClicked.equals(marker)) {
+                    lastClicked = null;
+                    marker.hideInfoWindow();
+                    return true;
+                } else {
+                    lastClicked = marker;
+                    return false;
+                }
+            }
+        });
 
         map.setOnMapLongClickListener(new OnMapLongClickListener() {
 
