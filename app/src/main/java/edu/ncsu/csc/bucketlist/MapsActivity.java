@@ -58,7 +58,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
 
     /* Client used to interact with Google APIs. */
     private GoogleApiClient mGoogleApiClient;
-    LocationRequest mLocationRequest;
+    Location lastLocalLocation = null;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private UiSettings mUiSettings;
 
@@ -153,6 +153,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
 
         Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if(mLastLocation != null){
+            lastLocalLocation = mLastLocation;
             // Showing the current location in Google Map
             mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude())));
 
