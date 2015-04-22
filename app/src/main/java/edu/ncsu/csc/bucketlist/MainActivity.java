@@ -44,14 +44,15 @@ public class MainActivity extends Activity implements OnClickListener,
 
     public static MainActivity mContext;
 
-    public final static String USER_NAME = "com.example.nikhil.activities.USER_NAME";
-    public final static String USER_EMAIL = "com.example.nikhil.activities.USER_EMAIL";
+    public final static String USER_NAME = "edu.ncsu.csc.bucketlist.USER_NAME";
+    public final static String USER_ID = "edu.ncsu.csc.bucketlist.USER_ID";
+    public final static String USER_EMAIL = "edu.ncsu.csc.bucketlist.USER_EMAIL";
 
     // Logcat tag
     private static final String TAG = "MainActivity";
 
     private SignInButton signInBtn;
-    private String userName, userEmail;
+    private String userName, userId, userEmail;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -153,6 +154,7 @@ public class MainActivity extends Activity implements OnClickListener,
         Intent newIntent = new Intent(this, HomePage.class);
         //  Use putExtra to pass along user info
         newIntent.putExtra(USER_NAME, userName);
+        newIntent.putExtra(USER_ID, userId);
         newIntent.putExtra(USER_EMAIL, userEmail);
         startActivity(newIntent);
         finish(); //Yes finish is needed
@@ -166,11 +168,12 @@ public class MainActivity extends Activity implements OnClickListener,
                 Person currentPerson = Plus.PeopleApi
                         .getCurrentPerson(mGoogleApiClient);
                 userName = currentPerson.getDisplayName();
+                userId  = currentPerson.getId();
                 //String personPhotoUrl = currentPerson.getImage().getUrl();
                 String personGooglePlusProfile = currentPerson.getUrl();
                 userEmail = Plus.AccountApi.getAccountName(mGoogleApiClient);
 
-                Log.e(TAG, "Name: " + userName + ", plusProfile: "
+                Log.e(TAG, "Name: " + userName + ", userId: " + userId + ", plusProfile: "
                         + personGooglePlusProfile + ", email: " + userEmail);
 
 

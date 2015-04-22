@@ -157,22 +157,14 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
                         Toast.makeText(MapsActivity.this, "Location added to " + bucket.name + " bucket!", Toast.LENGTH_LONG).show();
                     }
 
+                    // Hide list of buckets
                     listLayout.setVisibility(View.GONE);
-                    // force redraw
-                    //findViewById(R.id.maps_layout).invalidate();
-                    clickedMarker.setIcon(BitmapDescriptorFactory.fromResource(hashMap.get(bucket.image).get(0)));
 
                     // replace icon of marker to represent bucket
-                    LatLng markerPosition = clickedMarker.getPosition();
-                    String title = clickedMarker.getTitle();
-                    String snippet = clickedMarker.getSnippet();
-                  /*  clickedMarker.setIcon(?);
-                  or clickedMarker.remove();
-                    Marker newMarker = mMap.addMarker(new MarkerOptions()
-                            .position(markerPosition)
-                            .title(title)
-                            .snippet(snippet)
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.?));*/
+                    clickedMarker.setIcon(BitmapDescriptorFactory.fromResource(hashMap.get(bucket.image).get(0)));
+
+
+
                 }
             }
         });

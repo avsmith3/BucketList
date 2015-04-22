@@ -15,7 +15,7 @@ public class HomePage extends MainActivity {
 
     /* Client used to interact with Google APIs. */
     private GoogleApiClient mGoogleApiClient;
-    private static String userName, userEmail, userID;
+    private static String userName, userEmail, userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class HomePage extends MainActivity {
         if(intent.getStringExtra(USER_NAME) != null) {
             userName = intent.getStringExtra(USER_NAME);
             userEmail = intent.getStringExtra(USER_EMAIL);
-            //userID = intent.getStringExtra(USER_ID);
+            userId = intent.getStringExtra(USER_ID);
         }
         String welcomeTxt = getResources().getString(R.string.welcomeText) + ", " + userName + "!";
         Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
