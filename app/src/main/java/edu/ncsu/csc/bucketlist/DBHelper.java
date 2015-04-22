@@ -48,6 +48,17 @@ public class DBHelper extends SQLiteOpenHelper{
 
 /* USERS */
 
+    public long addUser(String name, String googleplusid, String facebookid) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put("name", name);
+        contentValues.put("googleplusid", googleplusid);
+        contentValues.put("facebookid", facebookid);
+
+        return db.insert("users", null, contentValues);
+    }
+
     public UserBean getUser(long id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery( "select * from users where id = ?", new String[] { Long.toString(id) });
