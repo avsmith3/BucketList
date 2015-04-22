@@ -15,7 +15,7 @@ public class HomePage extends MainActivity {
 
     /* Client used to interact with Google APIs. */
     private GoogleApiClient mGoogleApiClient;
-    private String userName, userEmail, userID;
+    private static String userName, userEmail, userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
