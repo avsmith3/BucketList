@@ -21,7 +21,7 @@ public class MyBuckets extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_buckets);
+        setContentView(R.layout.activity_my_buckets);
 
         mydb = new DBHelper(this);
         ArrayList array_list = mydb.getAllBucketsForUser(0);
@@ -49,7 +49,7 @@ public class MyBuckets extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_show_buckets, menu);
+        getMenuInflater().inflate(R.menu.menu_my_buckets, menu);
         return true;
     }
 
