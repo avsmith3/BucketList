@@ -42,6 +42,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -65,6 +67,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
     private ListView list;
     private LinearLayout listLayout;
     private Marker clickedMarker;
+    private HashMap<String, ArrayList<Integer>> hashMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,8 +124,21 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
         });
 
         mydb = new DBHelper(this);
+        hashMap = new HashMap<String, ArrayList<Integer>>();
+        // add pairs of tag, images
+        hashMap.put("art", new ArrayList<Integer>(Arrays.asList(R.drawable.art_tiny, R.drawable.art)));
+        hashMap.put("entertainment", new ArrayList<Integer>(Arrays.asList(R.drawable.entertainment_tiny, R.drawable.entertainment)));
+        hashMap.put("food", new ArrayList<Integer>(Arrays.asList(R.drawable.food_tiny, R.drawable.food)));
+        hashMap.put("kid", new ArrayList<Integer>(Arrays.asList(R.drawable.kid_tiny, R.drawable.kid)));
+        hashMap.put("parks", new ArrayList<Integer>(Arrays.asList(R.drawable.parks_tiny, R.drawable.parks)));
+        hashMap.put("shopping", new ArrayList<Integer>(Arrays.asList(R.drawable.shopping_tiny, R.drawable.shopping)));
+        hashMap.put("sports", new ArrayList<Integer>(Arrays.asList(R.drawable.sports_tiny, R.drawable.sports)));
+        hashMap.put("standard", new ArrayList<Integer>(Arrays.asList(R.drawable.standard_tiny, R.drawable.standard)));
+
         listLayout = (LinearLayout) findViewById(R.id.list_layout);
 
+
+        // TODO: change to use real userId
         ArrayList array_list = mydb.getAllBucketsForUser(0);
         ArrayAdapter arrayAdapter = new ArrayAdapter(MapsActivity.this, android.R.layout.simple_list_item_1, array_list);
 
@@ -144,6 +160,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
                     listLayout.setVisibility(View.GONE);
                     // force redraw
                     //findViewById(R.id.maps_layout).invalidate();
+                    clickedMarker.setIcon(BitmapDescriptorFactory.fromResource(hashMap.get(bucket.image).get(0)));
 
                     // replace icon of marker to represent bucket
                     LatLng markerPosition = clickedMarker.getPosition();
@@ -309,8 +326,10 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
 
         // To draw a bucket icon on map use .icon(BitmapDescriptorFactory.fromResource(R.drawable.imagename_tiny)) instead
 
-        //TODO: Perhaps we can use OnMarkerDragListener to signal an add to bucket and popup buckets to "drop" pin into
-        // Change pin from generic Google pin to bucket pin after added to bucket?
+    }
+
+    public void loadMarkers(){
+
     }
 
     public void onConnected(Bundle connectionHint) {

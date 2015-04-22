@@ -29,7 +29,7 @@ public class DBHelper extends SQLiteOpenHelper{
         );
         db.execSQL(
                 "create table bucketentries " +
-                        "(id integer primary key autoincrement, name text, latitude integer, longitude integer, comment text, rating integer, visited integer)"
+                        "(id integer primary key autoincrement, name text, latitude real, longitude real, comment text, rating integer, visited integer)"
         );
         db.execSQL(
                 "create table bucketentryassociations " +
