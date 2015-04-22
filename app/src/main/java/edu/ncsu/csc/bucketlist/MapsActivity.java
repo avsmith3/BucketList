@@ -1,33 +1,23 @@
 package edu.ncsu.csc.bucketlist;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
-import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.view.View.OnClickListener;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.PlaceLikelihood;
 import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
@@ -37,11 +27,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
@@ -52,13 +39,13 @@ import java.util.Locale;
 
 public class MapsActivity extends FragmentActivity implements LocationListener,
         GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback {
+        GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback, GoogleMap.OnMyLocationChangeListener {
 
     private static final String TAG = "BucketList App";
 
     /* Client used to interact with Google APIs. */
     private GoogleApiClient mGoogleApiClient;
-    Location lastLocalLocation = null;
+    Location lastLocalKnownLocation = null;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private UiSettings mUiSettings;
 
@@ -142,7 +129,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
         mUiSettings.setMyLocationButtonEnabled(true);
         mUiSettings.setMapToolbarEnabled(false);
         mMap.setMyLocationEnabled(true);
-
+        mMap.setOnMyLocationChangeListener(this);
         //TODO: not sure how we can do an info window when user drops a pin this way
         mMap.setOnMapLongClickListener(  new GoogleMap.OnMapLongClickListener() {
             @Override
@@ -153,7 +140,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
 
         Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if(mLastLocation != null){
-            lastLocalLocation = mLastLocation;
+            lastLocalKnownLocation = mLastLocation;
             // Showing the current location in Google Map
             mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude())));
 
@@ -252,24 +239,6 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
         drawMarker(latlng, "", "");
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
-
-        // Getting latitude of the current location
-        double latitude = location.getLatitude();
-
-        // Getting longitude of the current location
-        double longitude = location.getLongitude();
-
-        // Creating a LatLng object for the current location
-        LatLng latLng = new LatLng(latitude, longitude);
-
-        //Nikhil: Dont draw marker at current location. The GPS location circle will suffice.
-        //mMap.addMarker(new MarkerOptions().position(latLng));
-        //drawMarker(latLng);
-    }
-
-
     private void drawMarker(LatLng currentPosition, String title, String info){
         // Remove any existing markercation locations on the map
         //mMap.clear();
@@ -316,4 +285,22 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
         // TODO Auto-generated method stub
     }
 
+    //One of the 2 functions below is redundant, probably the first one
+    @Override
+    public void onLocationChanged(Location location) {
+        if(lastLocalKnownLocation == null) {
+            lastLocalKnownLocation = location;
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+        }
+    }
+
+    @Override
+    public void onMyLocationChange(Location location) {
+        if(lastLocalKnownLocation == null) {
+            lastLocalKnownLocation = location;
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+        }
+    }
 }

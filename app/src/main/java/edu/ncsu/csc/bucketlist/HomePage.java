@@ -15,6 +15,7 @@ public class HomePage extends MainActivity {
 
     /* Client used to interact with Google APIs. */
     private GoogleApiClient mGoogleApiClient;
+    private String userName, userEmail, userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +32,23 @@ public class HomePage extends MainActivity {
 
         // Get the message from the intent
         Intent intent = getIntent();
-        String userName = intent.getStringExtra(USER_NAME);
-        String userEmail = intent.getStringExtra(USER_EMAIL);
+        if(intent.getStringExtra(USER_NAME) != null) {
+            userName = intent.getStringExtra(USER_NAME);
+            userEmail = intent.getStringExtra(USER_EMAIL);
+            //userID = intent.getStringExtra(USER_ID);
+        }
+        String welcomeTxt = getResources().getString(R.string.welcomeText) + ", " + userName + "!";
+        Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
 
+        /*
         if (userName != null) {
             String welcomeTxt = getResources().getString(R.string.welcomeText) + ", " + userName + "!";
             Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
         }
+        else {
+            //Try to fetch the user name and email from static variables in MainActivity (works but not nice)?
+            //or logout ?
+        }*/
     }
 
     protected void onStart() {
