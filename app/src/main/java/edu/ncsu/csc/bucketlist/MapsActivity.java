@@ -2,12 +2,16 @@ package edu.ncsu.csc.bucketlist;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.location.Location;
 import android.location.LocationListener;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,6 +22,7 @@ import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -29,6 +34,7 @@ import com.google.android.gms.location.places.PlaceLikelihood;
 import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -228,6 +234,50 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
             }
         });
 
+        // Setting a custom info window adapter for the google map
+        mMap.setInfoWindowAdapter(new InfoWindowAdapter() {
+
+            // Use default InfoWindow frame
+            @Override
+            public View getInfoWindow(Marker arg0) {
+                return null;
+            }
+
+            // Defines the contents of the InfoWindow
+            @Override
+            public View getInfoContents(Marker marker) {
+
+                // Getting view from the layout file info_window_layout
+                View view = getLayoutInflater().inflate(R.layout.custom_info_window, null);
+
+                // Set title and make it bold
+                String title = marker.getTitle();
+                TextView titleUi = ((TextView) view.findViewById(R.id.infoTitleTxt));
+                if (title != null) {
+                    // Spannable string allows us to edit the formatting of the text.
+                    SpannableString titleText = new SpannableString(title);
+                    titleText.setSpan(new StyleSpan(Typeface.BOLD), 0, titleText.length(), 0);
+                    titleUi.setText(titleText);
+                } else {
+                    titleUi.setText("");
+                }
+
+                String snippet = marker.getSnippet();
+                TextView snippetUi = (TextView) view.findViewById(R.id.infoSnippetTxt);
+
+                if (snippet != null) {
+                    // Setting the snippet
+                    snippetUi.setText(snippet);
+                } else {
+                    snippetUi.setText("");
+                }
+
+                // Returning the view containing InfoWindow contents
+                return view;
+
+            }
+        });
+
         loadMarkers();
 /* // Not necessary - just testing it out - provides places near user's current location
         PendingResult<PlaceLikelihoodBuffer> result = Places.PlaceDetectionApi
@@ -270,15 +320,15 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
             }
             StringBuilder placeInfo = new StringBuilder("");
             for (int i = 1; i < addr.getMaxAddressLineIndex(); i++) {
-                placeInfo.append("\n").append(addr.getAddressLine(i));
+                placeInfo.append(addr.getAddressLine(i)).append("\n");
             }
             String phone = addr.getPhone();
             String url = addr.getUrl();
             if (phone != null) {
-                placeInfo.append("\n").append(phone);
+                placeInfo.append(phone).append("\n");
             }
             if (url != null) {
-                placeInfo.append("\n").append(url);
+                placeInfo.append(url).append("\n");
             }
             Log.i(TAG, title);
             Log.i(TAG, placeInfo.toString());
