@@ -81,14 +81,22 @@ public class HomePage extends MainActivity {
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
-    public void addBucket(View v)
+
+    public void addNewBucket(View v)
     {
         Intent intent = new Intent(this,NewBucket.class);
         startActivity(intent);
     }
-    public void showBuckets(View v)
+
+    public void showMyBuckets(View v)
     {
         Intent intent = new Intent(this,MyBuckets.class);
+        startActivity(intent);
+    }
+
+    public void showTopBuckets(View v)
+    {
+        Intent intent = new Intent(this,TopBuckets.class);
         startActivity(intent);
     }
 

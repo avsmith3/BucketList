@@ -72,6 +72,10 @@
             android:name=".NewBucket"
             android:label="@string/title_activity_create_new_bucket" >
         </activity>
+        <activity
+            android:name=".TopBuckets"
+            android:label="@string/title_activity_top_buckets" >
+        </activity>
     </application>
 
 </manifest>
