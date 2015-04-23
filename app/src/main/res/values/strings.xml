@@ -35,5 +35,6 @@
     <string name="title_activity_create_new_bucket">Create_new_bucket</string>
     <string name="title_activity_create_bucket">CreateBucket</string>
     <string name="title_activity_top_buckets">TopBuckets</string>
+    <string name="title_activity_share_buckets">ShareBuckets</string>
 
 </resources>

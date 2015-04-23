@@ -61,6 +61,7 @@
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
         android:src="@drawable/sharebuckets"
+        android:onClick="shareBuckets"
         android:contentDescription="@string/shareBucketsBtn"/>
     </LinearLayout>
 

@@ -84,23 +84,26 @@ public class HomePage extends MainActivity {
         startActivity(intent);
     }
 
-    public void addNewBucket(View v)
-    {
+    public void addNewBucket(View v) {
         Intent intent = new Intent(this, NewBucket.class);
         intent.putExtra("DB_USER_ID", dbUserId);
         startActivity(intent);
     }
 
-    public void showMyBuckets(View v)
-    {
+    public void showMyBuckets(View v) {
         Intent intent = new Intent(this, MyBuckets.class);
         intent.putExtra("DB_USER_ID", dbUserId);
         startActivity(intent);
     }
 
-    public void showTopBuckets(View v)
-    {
+    public void showTopBuckets(View v) {
         Intent intent = new Intent(this, TopBuckets.class);
+        intent.putExtra("DB_USER_ID", dbUserId);
+        startActivity(intent);
+    }
+
+    public void shareBuckets(View v) {
+        Intent intent = new Intent(this, ShareBuckets.class);
         intent.putExtra("DB_USER_ID", dbUserId);
         startActivity(intent);
     }
