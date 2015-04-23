@@ -39,8 +39,6 @@ public class NewBucket extends ActionBarActivity {
         if(bucketId != -1)
         {
             Toast.makeText(getApplicationContext(),"New Bucket Created!",Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(getApplicationContext(),edu.ncsu.csc.bucketlist.HomePage.class);
-            startActivity(intent);
         }
         else
         {
