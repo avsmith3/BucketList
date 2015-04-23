@@ -9,17 +9,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/bucketImg"
-        android:src="@drawable/standard"
+        android:src="@drawable/logo"
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
-        android:layout_above="@+id/appNameImg" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/appNameImg"
-        android:src="@drawable/appname"
-        android:layout_centerHorizontal="true"
         android:layout_above="@+id/space" />
 
     <Space
