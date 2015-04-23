@@ -69,11 +69,11 @@ public class MyBuckets extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
+/*
     public boolean onKeyDown(int keycode, KeyEvent event) {
         if (keycode == KeyEvent.KEYCODE_BACK) {
             moveTaskToBack(true);
         }
         return super.onKeyDown(keycode, event);
-    }
+    }*/
 }

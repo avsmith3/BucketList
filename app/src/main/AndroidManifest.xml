@@ -58,11 +58,7 @@
         </activity>
         <activity
             android:name=".MyBuckets"
-            android:label="MyBuckets"
-            android:parentActivityName=".HomePage" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.ncsu.csc.bucketlist.HomePage" />
+            android:label="MyBuckets" >
         </activity>
         <activity
             android:name=".DisplayBucket"

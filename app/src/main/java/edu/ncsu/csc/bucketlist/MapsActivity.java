@@ -63,7 +63,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
 
     /* Client used to interact with Google APIs. */
     private GoogleApiClient mGoogleApiClient;
-    Location lastLocalKnownLocation = null;
+    private static Location lastLocalKnownLocation = null;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private UiSettings mUiSettings;
 
@@ -132,16 +132,6 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
         });
 
         mydb = new DBHelper(this);
-        hashMap = new HashMap<String, ArrayList<Integer>>();
-        // add pairs of tag, images
-        hashMap.put("art", new ArrayList<Integer>(Arrays.asList(R.drawable.art_tiny, R.drawable.art)));
-        hashMap.put("entertainment", new ArrayList<Integer>(Arrays.asList(R.drawable.entertainment_tiny, R.drawable.entertainment)));
-        hashMap.put("food", new ArrayList<Integer>(Arrays.asList(R.drawable.food_tiny, R.drawable.food)));
-        hashMap.put("kid", new ArrayList<Integer>(Arrays.asList(R.drawable.kid_tiny, R.drawable.kid)));
-        hashMap.put("parks", new ArrayList<Integer>(Arrays.asList(R.drawable.parks_tiny, R.drawable.parks)));
-        hashMap.put("shopping", new ArrayList<Integer>(Arrays.asList(R.drawable.shopping_tiny, R.drawable.shopping)));
-        hashMap.put("sports", new ArrayList<Integer>(Arrays.asList(R.drawable.sports_tiny, R.drawable.sports)));
-        hashMap.put("standard", new ArrayList<Integer>(Arrays.asList(R.drawable.standard_tiny, R.drawable.standard)));
 
         listLayout = (LinearLayout) findViewById(R.id.list_layout);
 
@@ -278,6 +268,17 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
             }
         });
 
+        hashMap = new HashMap<String, ArrayList<Integer>>();
+        // add pairs of tag, images
+        hashMap.put("art", new ArrayList<Integer>(Arrays.asList(R.drawable.art_tiny, R.drawable.art)));
+        hashMap.put("entertainment", new ArrayList<Integer>(Arrays.asList(R.drawable.entertainment_tiny, R.drawable.entertainment)));
+        hashMap.put("food", new ArrayList<Integer>(Arrays.asList(R.drawable.food_tiny, R.drawable.food)));
+        hashMap.put("kid", new ArrayList<Integer>(Arrays.asList(R.drawable.kid_tiny, R.drawable.kid)));
+        hashMap.put("parks", new ArrayList<Integer>(Arrays.asList(R.drawable.parks_tiny, R.drawable.parks)));
+        hashMap.put("shopping", new ArrayList<Integer>(Arrays.asList(R.drawable.shopping_tiny, R.drawable.shopping)));
+        hashMap.put("sports", new ArrayList<Integer>(Arrays.asList(R.drawable.sports_tiny, R.drawable.sports)));
+        hashMap.put("standard", new ArrayList<Integer>(Arrays.asList(R.drawable.standard_tiny, R.drawable.standard)));
+
         loadMarkers();
 /* // Not necessary - just testing it out - provides places near user's current location
         PendingResult<PlaceLikelihoodBuffer> result = Places.PlaceDetectionApi
@@ -386,24 +387,26 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
     public void loadMarkers(){
         // TODO: change to real userId
         ArrayList<BucketBean> userBuckets = mydb.getAllBucketsForUser(0);
-        // for each bucket
-        for (int i = 0; i < userBuckets.size(); i++) {
-            BucketBean bucket = (BucketBean) userBuckets.get(i);
-            int bucketIcon = hashMap.get(bucket.image).get(0);
-            ArrayList<EntryBean> bucketEntries = mydb.getEntriesFor(bucket.id);
-            for (int j = 0; j < bucketEntries.size(); j++) {
-                // draw markers for places in bucket
-                EntryBean entry = (EntryBean) bucketEntries.get(j);
-                LatLng position = new LatLng(entry.latitude, entry.longitude);
-                mMap.addMarker(new MarkerOptions()
-                        .position(position)
-                        .title(entry.infoTitle)
-                        .snippet(entry.infoSnippet)
-                        .icon(BitmapDescriptorFactory.fromResource(bucketIcon)));
+            // for each userBucket create markers for each place in bucket using correct image
+            for (int i = 0; i < userBuckets.size(); i++) {
+                BucketBean bucket = (BucketBean) userBuckets.get(i);
+                int bucketIcon = hashMap.get(bucket.image).get(0);
+                ArrayList<EntryBean> bucketEntries = mydb.getEntriesFor(bucket.id);
+
+                    for (int j = 0; j < bucketEntries.size(); j++) {
+                        // draw markers for places in bucket
+                        EntryBean entry = (EntryBean) bucketEntries.get(j);
+                        LatLng position = new LatLng(entry.latitude, entry.longitude);
+                        mMap.addMarker(new MarkerOptions()
+                                .position(position)
+                                .title(entry.infoTitle)
+                                .snippet(entry.infoSnippet)
+                                .icon(BitmapDescriptorFactory.fromResource(bucketIcon)));
+
+                    }
 
             }
-        }
-        // for each userBucket create markers for each place in bucket using correct image
+
 
     }
 

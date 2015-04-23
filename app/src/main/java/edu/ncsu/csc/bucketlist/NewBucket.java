@@ -33,7 +33,7 @@ public class NewBucket extends ActionBarActivity {
     }
 
 
-    //TODO: Button click should add the bucket to database
+    //TODO: We need to enforce that an image has been selected as well as a name typed in
     public void createButtonClick(View view){
         long bucketId = mydb.addBucket(0, ((EditText) findViewById(R.id.bucketName)).getText().toString(), imageTag);
         if(bucketId != -1)
