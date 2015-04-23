@@ -71,6 +71,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
     private static final float DEFAULTZOOM = 15;
     private ArrayList<Marker> mapMarkers = new ArrayList<Marker>();
     private DBHelper mydb;
+    private long dbUserId;
     private ListView list;
     private LinearLayout listLayout;
     private Marker clickedMarker;
@@ -132,12 +133,13 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
         });
 
         mydb = new DBHelper(this);
+        dbUserId = getIntent().getLongExtra("DB_USER_ID", -1);
+        String welcomeTxt = getResources().getString(R.string.welcomeText) + ", " + dbUserId + "!";
+        Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
 
         listLayout = (LinearLayout) findViewById(R.id.list_layout);
 
-
-        // TODO: change to use real userId
-        ArrayList array_list = mydb.getAllBucketsForUser(0);
+        ArrayList array_list = mydb.getAllBucketsForUser(dbUserId);
         ArrayAdapter arrayAdapter = new ArrayAdapter(MapsActivity.this, android.R.layout.simple_list_item_1, array_list);
 
         list = (ListView) findViewById(R.id.mapsListView);
@@ -385,8 +387,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
     }
 
     public void loadMarkers(){
-        // TODO: change to real userId
-        ArrayList<BucketBean> userBuckets = mydb.getAllBucketsForUser(0);
+        ArrayList<BucketBean> userBuckets = mydb.getAllBucketsForUser(dbUserId);
             // for each userBucket create markers for each place in bucket using correct image
             for (int i = 0; i < userBuckets.size(); i++) {
                 BucketBean bucket = (BucketBean) userBuckets.get(i);

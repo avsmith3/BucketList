@@ -19,11 +19,8 @@ import java.util.ArrayList;
 
 
 public class DisplayBucket extends ActionBarActivity {
-    int from_where_i_am =0;
     private DBHelper mydb;
-    long id_to_update =0;
-
-
+    private long dbUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,16 +29,15 @@ public class DisplayBucket extends ActionBarActivity {
 
         mydb = new DBHelper(this);
 
-
         Bundle extras = getIntent().getExtras();
+        dbUserId = extras.getLong("DB_USER_ID", -1);
+        String welcomeTxt = getResources().getString(R.string.welcomeText) + ", " + dbUserId + "!";
+        Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
 
-        if(extras!=null)
-        {
+        if (extras != null) {
             long value = extras.getLong("id");
-            if(value>0)
-            {
+            if (value > 0) {
                 BucketBean bucket = mydb.getBucket(value);
-                id_to_update = value;
 
                 setTitle(bucket.name);
 

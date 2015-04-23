@@ -45,20 +45,23 @@ public class MainActivity extends Activity implements OnClickListener,
     public static MainActivity mContext;
 
     public final static String USER_NAME = "edu.ncsu.csc.bucketlist.USER_NAME";
-    public final static String USER_ID = "edu.ncsu.csc.bucketlist.USER_ID";
+    public final static String GOOGLE_USER_ID = "edu.ncsu.csc.bucketlist.GOOGLE_USER_ID";
     public final static String USER_EMAIL = "edu.ncsu.csc.bucketlist.USER_EMAIL";
+    public final static String DB_USER_ID = "edu.ncsu.csc.bucketlist.DB_USER_ID";
 
     // Logcat tag
     private static final String TAG = "MainActivity";
 
     private SignInButton signInBtn;
     private String userName, userId, userEmail;
+    private DBHelper mydb;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
 
         setContentView(R.layout.activity_main);
+        mydb = new DBHelper(this);
 
         signInBtn = (SignInButton) findViewById(R.id.sign_in_button);
         signInBtn.setOnClickListener(this);
@@ -150,12 +153,24 @@ public class MainActivity extends Activity implements OnClickListener,
         // Get user's information
         getProfileInformation();
 
+        UserBean user = mydb.getUserFromGooglePlus(userId);
+        long dbUserId;
+
+        if( user == null) {
+            Log.i(TAG, "User null");
+            dbUserId = mydb.addUser(userId, "");
+        } else {
+            Log.i(TAG, "User not null");
+            dbUserId = user.id;
+        }
+
         // Go to homepage
         Intent newIntent = new Intent(this, HomePage.class);
         //  Use putExtra to pass along user info
         newIntent.putExtra(USER_NAME, userName);
-        newIntent.putExtra(USER_ID, userId);
+        newIntent.putExtra(GOOGLE_USER_ID, userId);
         newIntent.putExtra(USER_EMAIL, userEmail);
+        newIntent.putExtra(DB_USER_ID, dbUserId);
         startActivity(newIntent);
         finish(); //Yes finish is needed
     }

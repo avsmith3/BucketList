@@ -6,11 +6,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 
 
 public class TopBuckets extends ActionBarActivity {
     private DBHelper mydb;
+    private long dbUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,9 +21,13 @@ public class TopBuckets extends ActionBarActivity {
         setContentView(R.layout.activity_top_buckets);
 
         mydb = new DBHelper(this);
+        dbUserId = getIntent().getLongExtra("DB_USER_ID", -1);
+        String welcomeTxt = getResources().getString(R.string.welcomeText) + ", " + dbUserId + "!";
+        Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
+
         ArrayList<EntryBean> topPlaces  = new ArrayList<EntryBean>();
         // Add places with 5 star rating to top buckets
-        ArrayList<BucketBean> userBuckets = mydb.getAllBucketsForUser(0);
+        ArrayList<BucketBean> userBuckets = mydb.getAllBucketsForUser(dbUserId);
         // for each bucket
         for (int i = 0; i < userBuckets.size(); i++) {
             BucketBean bucket = userBuckets.get(i);

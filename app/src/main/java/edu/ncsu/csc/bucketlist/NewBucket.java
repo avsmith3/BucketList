@@ -14,6 +14,7 @@ import android.content.Intent;
 public class NewBucket extends ActionBarActivity {
 
     private DBHelper mydb;
+    private long dbUserId;
     private String imageTag;
     private ImageView userBucket;
 
@@ -23,6 +24,9 @@ public class NewBucket extends ActionBarActivity {
         setContentView(R.layout.activity_new_bucket);
 
         mydb = new DBHelper(this);
+        dbUserId = getIntent().getLongExtra("DB_USER_ID", -1);
+        String welcomeTxt = getResources().getString(R.string.welcomeText) + ", " + dbUserId + "!";
+        Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
         userBucket = (ImageView) findViewById(R.id.userBucket);
     }
 
@@ -46,7 +50,7 @@ public class NewBucket extends ActionBarActivity {
         } else if (imageTag == null) {
             Toast.makeText(getApplicationContext(), "Please select a bucket image.", Toast.LENGTH_LONG).show();
         } else {
-            long bucketId = mydb.addBucket(0, bucketName, imageTag);
+            long bucketId = mydb.addBucket(dbUserId, bucketName, imageTag);
             if (bucketId != -1) {
                 Toast.makeText(getApplicationContext(), "New Bucket Created!", Toast.LENGTH_SHORT).show();
                 editText.setText("");

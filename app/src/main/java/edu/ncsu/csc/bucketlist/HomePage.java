@@ -15,7 +15,8 @@ public class HomePage extends MainActivity {
 
     /* Client used to interact with Google APIs. */
     private GoogleApiClient mGoogleApiClient;
-    private static String userName, userEmail, userId;
+    private static String userName, userEmail, googleUserId;
+    private long dbUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +33,11 @@ public class HomePage extends MainActivity {
 
         // Get the message from the intent
         Intent intent = getIntent();
-        if(intent.getStringExtra(USER_NAME) != null) {
-            userName = intent.getStringExtra(USER_NAME);
-            userEmail = intent.getStringExtra(USER_EMAIL);
-            userId = intent.getStringExtra(USER_ID);
-        }
+        userName = intent.getStringExtra(USER_NAME);
+        userEmail = intent.getStringExtra(USER_EMAIL);
+        googleUserId = intent.getStringExtra(GOOGLE_USER_ID);
+        dbUserId = intent.getLongExtra(DB_USER_ID, -1);
+
         String welcomeTxt = getResources().getString(R.string.welcomeText) + ", " + userName + "!";
         Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
 
@@ -65,7 +66,7 @@ public class HomePage extends MainActivity {
 
     @Override
     public void onConnectionFailed(ConnectionResult result) {
-        Log.d("Debug","Connection failed says HomePage");
+        Log.d("Debug", "Connection failed");
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
@@ -73,30 +74,34 @@ public class HomePage extends MainActivity {
 
     @Override
     public void onConnected(Bundle connectionHint) {
-        Log.d("Debug","Connected --from HomePage");
+        Log.d("Debug", "Connected");
     }
 
     /** Called when the user clicks the Explore Map button */
     public void exploreMap(View view) {
         Intent intent = new Intent(this, MapsActivity.class);
+        intent.putExtra("DB_USER_ID", dbUserId);
         startActivity(intent);
     }
 
     public void addNewBucket(View v)
     {
-        Intent intent = new Intent(this,NewBucket.class);
+        Intent intent = new Intent(this, NewBucket.class);
+        intent.putExtra("DB_USER_ID", dbUserId);
         startActivity(intent);
     }
 
     public void showMyBuckets(View v)
     {
-        Intent intent = new Intent(this,MyBuckets.class);
+        Intent intent = new Intent(this, MyBuckets.class);
+        intent.putExtra("DB_USER_ID", dbUserId);
         startActivity(intent);
     }
 
     public void showTopBuckets(View v)
     {
-        Intent intent = new Intent(this,TopBuckets.class);
+        Intent intent = new Intent(this, TopBuckets.class);
+        intent.putExtra("DB_USER_ID", dbUserId);
         startActivity(intent);
     }
 
@@ -108,8 +113,8 @@ public class HomePage extends MainActivity {
             Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
             mGoogleApiClient.disconnect();
             mGoogleApiClient.connect();
-            Log.d("Debug", "Disconnected --from HomePage");
-            Toast.makeText(this, "User is disconnected! says HomePage", Toast.LENGTH_LONG).show();
+            Log.d("Debug", "Disconnected");
+            Toast.makeText(this, "User is disconnected!", Toast.LENGTH_LONG).show();
         }
     }
 }

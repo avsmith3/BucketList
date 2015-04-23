@@ -10,21 +10,29 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 
 public class MyBuckets extends ActionBarActivity {
 
-    DBHelper mydb;
+    private DBHelper mydb;
     private ListView obj;
+    private long dbUserId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_buckets);
 
         mydb = new DBHelper(this);
-        ArrayList array_list = mydb.getAllBucketsForUser(0);
+
+        dbUserId = getIntent().getLongExtra("DB_USER_ID", -1);
+        String welcomeTxt = getResources().getString(R.string.welcomeText) + ", " + dbUserId + "!";
+        Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
+
+        ArrayList array_list = mydb.getAllBucketsForUser(dbUserId);
         ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,array_list);
 
         obj = (ListView)findViewById(R.id.listView1);
@@ -36,12 +44,15 @@ public class MyBuckets extends ActionBarActivity {
                 BucketBean bucket = (BucketBean)arg0.getItemAtPosition(arg2);
                 Bundle dataBundle = new Bundle();
                 dataBundle.putLong("id", bucket.id);
+                dataBundle.putLong("DB_USER_ID", dbUserId);
                 Intent intent = new Intent(getApplicationContext(),edu.ncsu.csc.bucketlist.DisplayBucket.class);
                 intent.putExtras(dataBundle);
                 startActivity(intent);
 
             }
         });
+
+
 
     }
 

@@ -21,7 +21,7 @@ public class DBHelper extends SQLiteOpenHelper{
     {
         db.execSQL(
                 "create table users " +
-                        "(id integer primary key autoincrement, googleplusid text, facebbookid text)"
+                        "(id integer primary key autoincrement, googleplusid text, facebookid text)"
         );
         db.execSQL(
                 "create table buckets " +
@@ -48,11 +48,10 @@ public class DBHelper extends SQLiteOpenHelper{
 
 /* USERS */
 
-    public long addUser(String name, String googleplusid, String facebookid) {
+    public long addUser(String googleplusid, String facebookid) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put("name", name);
         contentValues.put("googleplusid", googleplusid);
         contentValues.put("facebookid", facebookid);
 
