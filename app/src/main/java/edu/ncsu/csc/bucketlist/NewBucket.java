@@ -14,7 +14,8 @@ import android.content.Intent;
 public class NewBucket extends ActionBarActivity {
 
     private DBHelper mydb;
-    String imageTag;
+    private String imageTag;
+    private ImageView userBucket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +23,7 @@ public class NewBucket extends ActionBarActivity {
         setContentView(R.layout.activity_new_bucket);
 
         mydb = new DBHelper(this);
+        userBucket = (ImageView) findViewById(R.id.userBucket);
     }
 
 
@@ -33,16 +35,26 @@ public class NewBucket extends ActionBarActivity {
     }
 
 
-    //TODO: We need to enforce that an image has been selected as well as a name typed in
-    public void createButtonClick(View view){
-        long bucketId = mydb.addBucket(0, ((EditText) findViewById(R.id.bucketName)).getText().toString(), imageTag);
-        if(bucketId != -1)
-        {
-            Toast.makeText(getApplicationContext(),"New Bucket Created!",Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
-            Toast.makeText(getApplicationContext(),"Couldn't create new bucket!",Toast.LENGTH_SHORT).show();
+    // Enforce that an image has been selected as well as a name typed in
+    public void createButtonClick(View view) {
+        EditText editText = (EditText) findViewById(R.id.bucketName);
+        String bucketName = editText.getText().toString().trim();
+        if (bucketName.equals("") && imageTag == null) {
+            Toast.makeText(getApplicationContext(), "Please select a bucket image and enter a bucket name.", Toast.LENGTH_LONG).show();
+        } else if (bucketName.equals("")) {
+            Toast.makeText(getApplicationContext(), "Please enter a bucket name.", Toast.LENGTH_LONG).show();
+        } else if (imageTag == null) {
+            Toast.makeText(getApplicationContext(), "Please select a bucket image.", Toast.LENGTH_LONG).show();
+        } else {
+            long bucketId = mydb.addBucket(0, bucketName, imageTag);
+            if (bucketId != -1) {
+                Toast.makeText(getApplicationContext(), "New Bucket Created!", Toast.LENGTH_SHORT).show();
+                editText.setText("");
+                userBucket.setVisibility(View.INVISIBLE);
+
+            } else {
+                Toast.makeText(getApplicationContext(), "Couldn't create new bucket!", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -61,8 +73,9 @@ public class NewBucket extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void showBucketImage(View view){
-        ImageView userBucket = (ImageView) findViewById(R.id.userBucket);
+    public void showBucketImage(View view) {
+
+        userBucket.setVisibility(View.VISIBLE);
         imageTag = (String)view.getTag();
         if (view.getTag().equals("art")) {
             userBucket.setImageResource(R.drawable.art);
@@ -88,10 +101,5 @@ public class NewBucket extends ActionBarActivity {
         } else if (view.getTag().equals("standard")) {
             userBucket.setImageResource(R.drawable.standard);
         }
-
-
-        view.getId();
-        Toast.makeText(getApplicationContext(), "View tag :" + view.getTag(), Toast.LENGTH_SHORT).show();
-        System.out.println("View tag :"+view.getTag());
     }
 }
