@@ -75,7 +75,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
     private ListView list;
     private LinearLayout listLayout;
     private Marker clickedMarker;
-    private HashMap<String, ArrayList<Integer>> hashMap;
+    private ImageMap imageMap;
     private Marker lastClicked;
 
     @Override
@@ -138,12 +138,12 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
         Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
 
         listLayout = (LinearLayout) findViewById(R.id.list_layout);
-
-        ArrayList array_list = mydb.getAllBucketsForUser(dbUserId);
-        ArrayAdapter arrayAdapter = new ArrayAdapter(MapsActivity.this, android.R.layout.simple_list_item_1, array_list);
+        imageMap = new ImageMap();
+        ArrayList<BucketBean> buckets = mydb.getAllBucketsForUser(dbUserId);
+        CustomListAdapter listAdapter = new CustomListAdapter(MapsActivity.this, buckets, imageMap.getHashMap());
 
         list = (ListView) findViewById(R.id.mapsListView);
-        list.setAdapter(arrayAdapter);
+        list.setAdapter(listAdapter);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -162,7 +162,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
                     listLayout.setVisibility(View.GONE);
 
                     // replace icon of marker to represent bucket
-                    clickedMarker.setIcon(BitmapDescriptorFactory.fromResource(hashMap.get(bucket.image).get(0)));
+                    clickedMarker.setIcon(BitmapDescriptorFactory.fromResource(imageMap.getHashMap().get(bucket.image).get(0)));
                 }
             }
         });
@@ -269,17 +269,6 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
 
             }
         });
-
-        hashMap = new HashMap<String, ArrayList<Integer>>();
-        // add pairs of tag, images
-        hashMap.put("art", new ArrayList<Integer>(Arrays.asList(R.drawable.art_tiny, R.drawable.art)));
-        hashMap.put("entertainment", new ArrayList<Integer>(Arrays.asList(R.drawable.entertainment_tiny, R.drawable.entertainment)));
-        hashMap.put("food", new ArrayList<Integer>(Arrays.asList(R.drawable.food_tiny, R.drawable.food)));
-        hashMap.put("kid", new ArrayList<Integer>(Arrays.asList(R.drawable.kid_tiny, R.drawable.kid)));
-        hashMap.put("parks", new ArrayList<Integer>(Arrays.asList(R.drawable.parks_tiny, R.drawable.parks)));
-        hashMap.put("shopping", new ArrayList<Integer>(Arrays.asList(R.drawable.shopping_tiny, R.drawable.shopping)));
-        hashMap.put("sports", new ArrayList<Integer>(Arrays.asList(R.drawable.sports_tiny, R.drawable.sports)));
-        hashMap.put("standard", new ArrayList<Integer>(Arrays.asList(R.drawable.standard_tiny, R.drawable.standard)));
 
         loadMarkers();
 /* // Not necessary - just testing it out - provides places near user's current location
@@ -391,7 +380,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
             // for each userBucket create markers for each place in bucket using correct image
             for (int i = 0; i < userBuckets.size(); i++) {
                 BucketBean bucket = (BucketBean) userBuckets.get(i);
-                int bucketIcon = hashMap.get(bucket.image).get(0);
+                int bucketIcon = imageMap.getHashMap().get(bucket.image).get(0);
                 ArrayList<EntryBean> bucketEntries = mydb.getEntriesFor(bucket.id);
 
                     for (int j = 0; j < bucketEntries.size(); j++) {

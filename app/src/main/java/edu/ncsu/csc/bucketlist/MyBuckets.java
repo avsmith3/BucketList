@@ -20,6 +20,7 @@ public class MyBuckets extends ActionBarActivity {
     private DBHelper mydb;
     private ListView obj;
     private long dbUserId;
+    private ImageMap imageMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +33,12 @@ public class MyBuckets extends ActionBarActivity {
         String welcomeTxt = getResources().getString(R.string.welcomeText) + ", " + dbUserId + "!";
         Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
 
-        ArrayList array_list = mydb.getAllBucketsForUser(dbUserId);
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,array_list);
+        imageMap = new ImageMap();
+        ArrayList<BucketBean> buckets = mydb.getAllBucketsForUser(dbUserId);
+        CustomListAdapter listAdapter = new CustomListAdapter(this, buckets, imageMap.getHashMap());
 
-        obj = (ListView)findViewById(R.id.listView1);
-        obj.setAdapter(arrayAdapter);
+        obj = (ListView)findViewById(R.id.myBucketsList);
+        obj.setAdapter(listAdapter);
 
         obj.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

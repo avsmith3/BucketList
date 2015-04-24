@@ -29,6 +29,7 @@ public class DisplayBucket extends ActionBarActivity {
 
         mydb = new DBHelper(this);
 
+
         Bundle extras = getIntent().getExtras();
         dbUserId = extras.getLong("DB_USER_ID", -1);
         String welcomeTxt = getResources().getString(R.string.welcomeText) + ", " + dbUserId + "!";
@@ -41,7 +42,7 @@ public class DisplayBucket extends ActionBarActivity {
 
                 setTitle(bucket.name);
 
-                ArrayList entries = mydb.getEntriesFor(value);
+                ArrayList<EntryBean> entries = mydb.getEntriesFor(value);
                 ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, entries);
 
                 ListView list = (ListView)findViewById(R.id.bucketList);
