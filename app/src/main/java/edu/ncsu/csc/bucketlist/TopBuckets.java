@@ -1,5 +1,7 @@
 package edu.ncsu.csc.bucketlist;
 
+import android.app.Activity;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -47,13 +49,14 @@ public class TopBuckets extends ActionBarActivity {
         topPlacesList.setAdapter(arrayAdapter);
     }
 
-
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_top_buckets, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -69,4 +72,5 @@ public class TopBuckets extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    */
 }

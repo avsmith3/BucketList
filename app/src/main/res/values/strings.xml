@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">BucketList</string>
+    <string name="app_name">Bucket List</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_maps">Map</string>
-    <string name="title_activity_home_page">HomePage</string>
-    <string name="welcomeText">Welcome Bucketer </string>
+    <string name="title_activity_home_page">Home Page</string>
+    <string name="title_activity_my_buckets">My Buckets</string>
+    <string name="title_activity_new_bucket">New Bucket</string>
+    <string name="title_activity_explore_map">Explore Map</string>
+    <string name="title_activity_share_buckets">Share Buckets</string>
+    <string name="title_activity_top_buckets">Top Buckets</string>
+    <string name="title_activity_display_bucket">Display Bucket</string>
     <string name="myBucketsBtn">My Buckets</string>
     <string name="newBucketBtn">New Bucket</string>
     <string name="exploreMapBtn">Explore Map</string>
@@ -14,17 +18,10 @@
     <string name="settingsBtn">Settings</string>
     <string name="logoutBtn">Log Out</string>
     <string name="btn_logout_from_google">Logout from Google</string>
-    <string name="title_activity_add_bucket">AddBucket</string>
+    <string name="welcomeText">Welcome Bucketer </string>
     <string name="hello_world">Hello world!</string>
     <string name="enter_bucket_name">Enter Bucket Name</string>
-    <string name="enter_latitude">Enter Latitude</string>
-    <string name="enter_longitude">Enter Longitude</string>
-    <string name="enter_bucket_description">Enter Bucket Description</string>
-    <string name="title_activity_show_buckets">ShowBuckets</string>
-    <string name="title_activity_display_bucket">DisplayBucket</string>
     <string name="name">Bucket Name</string>
-    <string name="latitude">Latitude</string>
-    <string name="longitude">Longitude</string>
     <string name="description">Description</string>
     <string name="savebucket">Save Bucket</string>
     <string name="edit">Edit Bucket</string>
@@ -32,9 +29,5 @@
     <string name="deleteBucket">Delete Bucket?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="title_activity_create_new_bucket">Create_new_bucket</string>
-    <string name="title_activity_create_bucket">CreateBucket</string>
-    <string name="title_activity_top_buckets">TopBuckets</string>
-    <string name="title_activity_share_buckets">ShareBuckets</string>
 
 </resources>

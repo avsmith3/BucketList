@@ -1,5 +1,6 @@
 package edu.ncsu.csc.bucketlist;
 
+import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -30,15 +31,6 @@ public class NewBucket extends ActionBarActivity {
         userBucket = (ImageView) findViewById(R.id.userBucket);
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_new_bucket, menu);
-        return true;
-    }
-
-
     // Enforce that an image has been selected as well as a name typed in
     public void createButtonClick(View view) {
         EditText editText = (EditText) findViewById(R.id.bucketName);
@@ -62,6 +54,14 @@ public class NewBucket extends ActionBarActivity {
         }
     }
 
+    /*
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_new_bucket, menu);
+        return true;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -76,6 +76,7 @@ public class NewBucket extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    */
 
     public void showBucketImage(View view) {
 
