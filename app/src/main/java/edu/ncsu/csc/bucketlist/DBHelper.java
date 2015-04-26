@@ -269,7 +269,7 @@ public class DBHelper extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete("bucketentryassociations",
                 "bucketid = ? ",
-                new String[] { Long.toString(bucketid), Long.toString(bucketid) });
+                new String[] { Long.toString(bucketid) });
     }
 
 }
