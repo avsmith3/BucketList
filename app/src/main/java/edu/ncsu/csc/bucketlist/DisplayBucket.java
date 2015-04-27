@@ -55,10 +55,9 @@ public class DisplayBucket extends ActionBarActivity {
         Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
 
         if (extras != null) {
-            // bucket id
-            long value = extras.getLong("id");
-            if (value > 0) {
-                BucketBean bucket = mydb.getBucket(value);
+            long bucketId = extras.getLong("id");
+            if (bucketId > 0) {
+                BucketBean bucket = mydb.getBucket(bucketId);
 
                 setTitle("  " + bucket.name);
 
@@ -67,8 +66,8 @@ public class DisplayBucket extends ActionBarActivity {
                 actionBar.setDisplayUseLogoEnabled(true);
                 actionBar.setDisplayShowHomeEnabled(true);
 
-                entries = mydb.getEntriesFor(value);
-                listAdapter = new PlaceListAdapter(this, entries);
+                entries = mydb.getEntriesFor(bucketId);
+                listAdapter = new PlaceListAdapter(this, entries, bucketId);
                 listAdapter.setMode(inEditMode);
 
                 ListView list = (ListView)findViewById(R.id.placesList);

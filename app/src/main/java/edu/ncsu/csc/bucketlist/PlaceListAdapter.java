@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CheckedTextView;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -17,15 +19,17 @@ public class PlaceListAdapter extends ArrayAdapter<EntryBean> {
 
     private final Activity context;
     private final ArrayList<EntryBean> entries;
+    private long bucketId;
     private boolean inEditMode;
     private DBHelper mydb;
 
-    public PlaceListAdapter(Activity context, ArrayList<EntryBean> entries)
+    public PlaceListAdapter(Activity context, ArrayList<EntryBean> entries, long bucketId)
     {
         super(context, R.layout.displaybucket_listview, entries);
 
         this.context = context;
         this.entries = entries;
+        this.bucketId = bucketId;
         inEditMode = false;
         mydb = new DBHelper(getContext());
     }
@@ -57,6 +61,14 @@ public class PlaceListAdapter extends ArrayAdapter<EntryBean> {
             deletePlaceBtn.setVisibility(View.GONE);
         }
 
+        visitedBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Update visited value for entry in database here - need db function
+
+            }
+        });
+
         deletePlaceBtn.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -67,6 +79,8 @@ public class PlaceListAdapter extends ArrayAdapter<EntryBean> {
                 EntryBean currentEntry = entries.get(index);
                 // remove item from database
                 mydb.deleteEntry(currentEntry.id);
+                // remove association
+                mydb.removeFromBucket(currentEntry.id, bucketId);
                 // remove item from listview
                 entries.remove(index);
                 notifyDataSetChanged();
