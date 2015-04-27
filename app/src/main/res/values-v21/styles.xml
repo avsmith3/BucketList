@@ -2,4 +2,9 @@
 <resources>
     <style name="AppTheme" parent="android:Theme.Material.Light">
     </style>
+    <style name="customRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/custom_ratingbar</item>
+        <item name="android:minHeight">30dip</item>
+        <item name="android:maxHeight">30dip</item>
+    </style>
 </resources>
