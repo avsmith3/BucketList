@@ -117,9 +117,7 @@ public class MyBuckets extends ActionBarActivity {
             listAdapter.notifyDataSetChanged();
             return true;
         }
-        //TODO: What to do if user does not press done after editing?
-        //TODO: Issue if user tries to name bucket an empty string or just spaces -> Only first letter of old name saved
-
+        
         return super.onOptionsItemSelected(item);
     }
 

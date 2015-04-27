@@ -1,10 +1,15 @@
 package edu.ncsu.csc.bucketlist;
 
 import android.app.Activity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -21,6 +26,7 @@ public class CustomListAdapter extends ArrayAdapter<BucketBean> {
     private final ArrayList<BucketBean> buckets;
     private boolean inEditMode;
     private DBHelper mydb;
+    private String previousBucketName;
 
     public CustomListAdapter(Activity context, ArrayList<BucketBean> buckets, HashMap<String, ArrayList<Integer>> hashMap)
     {
@@ -63,6 +69,7 @@ public class CustomListAdapter extends ArrayAdapter<BucketBean> {
         }
 
         imageView.setImageResource(hashMap.get(bucket.image).get(1));
+
         deleteBucketBtn.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -90,7 +97,7 @@ public class CustomListAdapter extends ArrayAdapter<BucketBean> {
 
         });
 
-/*
+
         editableText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -103,11 +110,20 @@ public class CustomListAdapter extends ArrayAdapter<BucketBean> {
                         if (!edit.trim().equals("")) {
                             mydb.updateBucket(currentBucket.id, edit, currentBucket.image);
                         }
-                    return true;
                 }
                 return false;
             }
-        });*/
+        });
+/*
+        editableText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                previousBucketName = ((EditText) v).getText().toString();
+                Log.i("App", "Previous bucket name:" + previousBucketName);
+                return false;
+            }
+        });
 
        editableText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -121,11 +137,13 @@ public class CustomListAdapter extends ArrayAdapter<BucketBean> {
                     if (!edit.trim().equals("")) {
                         mydb.updateBucket(currentBucket.id, edit, currentBucket.image);
                         //Do not do notifyDataSetChanged(); here - it will screw with editText focus and mess up keyboard
+                    } else {
+                        mydb.updateBucket(currentBucket.id, previousBucketName, currentBucket.image);
                     }
                 }
             }
         });
-
+*/
         return rowView;
     }
 }
