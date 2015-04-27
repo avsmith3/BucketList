@@ -31,12 +31,21 @@ public class MyBuckets extends ActionBarActivity {
     private MenuItem editMenuItem;
     private MenuItem doneMenuItem;
     private CustomListAdapter listAdapter;
-    ArrayList<BucketBean> buckets;
+    private ArrayList<BucketBean> buckets;
+    private boolean inEditMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_buckets);
+
+        // Check whether we're recreating a previously destroyed instance
+        if (savedInstanceState != null) {
+            // Restore value of members from saved state
+            inEditMode = savedInstanceState.getBoolean("MODE");
+        } else {
+            inEditMode = false;
+        }
 
         mydb = new DBHelper(this);
 
@@ -47,6 +56,7 @@ public class MyBuckets extends ActionBarActivity {
         imageMap = new ImageMap();
         buckets = mydb.getAllBucketsForUser(dbUserId);
         listAdapter = new CustomListAdapter(this, buckets, imageMap.getHashMap());
+        listAdapter.setMode(inEditMode);
 
         obj = (ListView)findViewById(R.id.myBucketsList);
         obj.setAdapter(listAdapter);
@@ -70,8 +80,13 @@ public class MyBuckets extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_my_buckets, menu);
-        menu.getItem(0).setVisible(true);
-        menu.getItem(1).setVisible(false);
+        if (!inEditMode) {
+            menu.getItem(0).setVisible(true);
+            menu.getItem(1).setVisible(false);
+        } else {
+            menu.getItem(0).setVisible(false);
+            menu.getItem(1).setVisible(true);
+        }
 
         editMenuItem = menu.findItem(R.id.action_edit_bucket);
         doneMenuItem = menu.findItem(R.id.action_edit_done);
@@ -90,6 +105,7 @@ public class MyBuckets extends ActionBarActivity {
         // single edit action for deleting or editing bucket name
         if ( id == R.id.action_edit_bucket ) {
 
+           inEditMode = true;
            editMenuItem.setVisible(false);
            doneMenuItem.setVisible(true);
 
@@ -99,6 +115,7 @@ public class MyBuckets extends ActionBarActivity {
 
         } else if ( id == R.id.action_edit_done ) {
 
+            inEditMode = false;
             // update bucket list to reflect changes to database
             listAdapter.clear();
             buckets = mydb.getAllBucketsForUser(dbUserId);
@@ -117,8 +134,17 @@ public class MyBuckets extends ActionBarActivity {
             listAdapter.notifyDataSetChanged();
             return true;
         }
-        
+
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        // Save state
+        savedInstanceState.putBoolean("MODE", inEditMode);
+
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
     }
 
 }
