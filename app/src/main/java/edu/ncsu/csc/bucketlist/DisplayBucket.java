@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -72,6 +73,17 @@ public class DisplayBucket extends ActionBarActivity {
 
                 ListView list = (ListView)findViewById(R.id.placesList);
                 list.setAdapter(listAdapter);
+
+                list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                        EntryBean entry = (EntryBean)arg0.getItemAtPosition(arg2);
+                        Intent intent = new Intent(getApplicationContext(),edu.ncsu.csc.bucketlist.PlaceActivity.class);
+                        intent.putExtra("DB_USER_ID", dbUserId);
+                        intent.putExtra("ENTRY_ID", entry.id);
+                        startActivity(intent);
+                    }
+                });
             }
         }
 

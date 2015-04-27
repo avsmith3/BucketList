@@ -59,7 +59,7 @@
         <activity
             android:name=".MyBuckets"
             android:label="@string/title_activity_my_buckets"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name=".DisplayBucket"
@@ -67,7 +67,7 @@
         </activity>
         <activity
             android:name=".NewBucket"
-            android:label="@string/title_activity_new_bucket">
+            android:label="@string/title_activity_new_bucket" >
         </activity>
         <activity
             android:name=".TopBuckets"
@@ -76,6 +76,10 @@
         <activity
             android:name=".ShareBuckets"
             android:label="@string/title_activity_share_buckets" >
+        </activity>
+        <activity
+            android:name=".PlaceActivity"
+            android:label="@string/title_activity_place" >
         </activity>
     </application>
 

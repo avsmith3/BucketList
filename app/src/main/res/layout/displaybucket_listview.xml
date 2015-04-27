@@ -9,6 +9,7 @@
         android:button="@drawable/custom_checkbox"
         android:textSize="20dp"
         android:layout_alignParentLeft="true"
+        android:focusable="false"
         android:id="@+id/visited_checkBox" />
 
     <TextView
