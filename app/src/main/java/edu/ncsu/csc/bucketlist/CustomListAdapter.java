@@ -1,7 +1,6 @@
 package edu.ncsu.csc.bucketlist;
 
 import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +10,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.google.android.gms.fitness.data.Bucket;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,9 +41,10 @@ public class CustomListAdapter extends ArrayAdapter<BucketBean> {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.bucket_listview_layout, null, true);
 
-        TextView titleText = (TextView) rowView.findViewById(R.id.list_item_name);
+        final TextView titleText = (TextView) rowView.findViewById(R.id.list_item_name);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.list_item_img);
         EditText editableText = (EditText) rowView.findViewById(R.id.list_item_edit_name);
+        editableText.setTag(position);
         ImageButton deleteBucketBtn = (ImageButton) rowView.findViewById(R.id.deleteBucketBtn);
         deleteBucketBtn.setTag(position);
 
@@ -92,6 +90,41 @@ public class CustomListAdapter extends ArrayAdapter<BucketBean> {
 
         });
 
+/*
+        editableText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+
+                    int index = (Integer) v.getTag();
+                    Log.i("App", "Edit Text pos:" + index);
+                        BucketBean currentBucket = buckets.get(index);
+                        String edit = ((EditText) v).getText().toString();
+                        if (!edit.trim().equals("")) {
+                            mydb.updateBucket(currentBucket.id, edit, currentBucket.image);
+                        }
+                    return true;
+                }
+                return false;
+            }
+        });*/
+
+       editableText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                int index = (Integer) v.getTag();
+                Log.i("App", "Edit Text pos:" + index);
+                if(!hasFocus) {
+                    BucketBean currentBucket = buckets.get(index);
+                    String edit = ((EditText) v).getText().toString();
+                    if (!edit.trim().equals("")) {
+                        mydb.updateBucket(currentBucket.id, edit, currentBucket.image);
+                        //Do not do notifyDataSetChanged(); here - it will screw with editText focus and mess up keyboard
+                    }
+                }
+            }
+        });
 
         return rowView;
     }

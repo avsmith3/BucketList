@@ -1,5 +1,6 @@
 package edu.ncsu.csc.bucketlist;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -26,9 +28,10 @@ public class MyBuckets extends ActionBarActivity {
     private ListView obj;
     private long dbUserId;
     private ImageMap imageMap;
-    private MenuItem editItem;
-    private MenuItem doneItem;
+    private MenuItem editMenuItem;
+    private MenuItem doneMenuItem;
     private CustomListAdapter listAdapter;
+    ArrayList<BucketBean> buckets;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +45,7 @@ public class MyBuckets extends ActionBarActivity {
         Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
 
         imageMap = new ImageMap();
-        ArrayList<BucketBean> buckets = mydb.getAllBucketsForUser(dbUserId);
+        buckets = mydb.getAllBucketsForUser(dbUserId);
         listAdapter = new CustomListAdapter(this, buckets, imageMap.getHashMap());
 
         obj = (ListView)findViewById(R.id.myBucketsList);
@@ -61,9 +64,6 @@ public class MyBuckets extends ActionBarActivity {
 
             }
         });
-
-
-
     }
 
     @Override
@@ -73,8 +73,8 @@ public class MyBuckets extends ActionBarActivity {
         menu.getItem(0).setVisible(true);
         menu.getItem(1).setVisible(false);
 
-        editItem = menu.findItem(R.id.action_edit_bucket);
-        doneItem = menu.findItem(R.id.action_edit_done);
+        editMenuItem = menu.findItem(R.id.action_edit_bucket);
+        doneMenuItem = menu.findItem(R.id.action_edit_done);
 
         return true;
     }
@@ -86,30 +86,39 @@ public class MyBuckets extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         super.onOptionsItemSelected(item);
-        TextView listItemName = (TextView) findViewById(R.id.list_item_name);
-        EditText listItemEdit = (EditText) findViewById(R.id.list_item_edit_name);
-        ImageButton deleteBucketBtn = (ImageButton) findViewById(R.id.deleteBucketBtn);
-        obj.invalidate();
-
 
         // single edit action for deleting or editing bucket name
         if ( id == R.id.action_edit_bucket ) {
-           editItem.setVisible(false);
-           doneItem.setVisible(true);
+
+           editMenuItem.setVisible(false);
+           doneMenuItem.setVisible(true);
 
            listAdapter.setMode(true);
            listAdapter.notifyDataSetChanged();
            return true;
+
         } else if ( id == R.id.action_edit_done ) {
+
+            // update bucket list to reflect changes to database
+            listAdapter.clear();
+            buckets = mydb.getAllBucketsForUser(dbUserId);
+            listAdapter.addAll(buckets);
+
+            // hide soft keyboard if user pressed done without making keyboard go away
+            EditText listItemEdit = (EditText) findViewById(R.id.list_item_edit_name);
+            InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            mgr.hideSoftInputFromWindow(listItemEdit.getWindowToken(), 0);
+
             // change back to normal view
-            editItem.setVisible(true);
-            doneItem.setVisible(false);
+            editMenuItem.setVisible(true);
+            doneMenuItem.setVisible(false);
 
             listAdapter.setMode(false);
             listAdapter.notifyDataSetChanged();
             return true;
         }
         //TODO: What to do if user does not press done after editing?
+        //TODO: Issue if user tries to name bucket an empty string or just spaces -> Only first letter of old name saved
 
         return super.onOptionsItemSelected(item);
     }
