@@ -1,11 +1,14 @@
 package edu.ncsu.csc.bucketlist;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -47,6 +50,18 @@ public class TopBuckets extends ActionBarActivity {
 
         ListView topPlacesList = (ListView)findViewById(R.id.topBucketListView);
         topPlacesList.setAdapter(arrayAdapter);
+
+        topPlacesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                EntryBean entry = (EntryBean)arg0.getItemAtPosition(arg2);
+                Intent intent = new Intent(getApplicationContext(),edu.ncsu.csc.bucketlist.PlaceActivity.class);
+                intent.putExtra("DB_USER_ID", dbUserId);
+                intent.putExtra("ENTRY_ID", entry.id);
+                startActivity(intent);
+            }
+        });
+
     }
 
 /*

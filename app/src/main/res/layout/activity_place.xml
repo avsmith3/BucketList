@@ -33,4 +33,10 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/place_comment"/>
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/place_comment_edit"/>
+
 </LinearLayout>

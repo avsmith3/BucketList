@@ -75,6 +75,9 @@ public class PlaceListAdapter extends ArrayAdapter<EntryBean> {
                     mydb.updateEntryCheckBox(currentEntry.id, 1);
                 } else {
                     mydb.updateEntryCheckBox(currentEntry.id, 0);
+                    // remove rating and comment if place  was previously checked
+                    mydb.updateEntryRating(currentEntry.id, 0);
+                    mydb.updateEntryComment(currentEntry.id, "");
                 }
             }
         });

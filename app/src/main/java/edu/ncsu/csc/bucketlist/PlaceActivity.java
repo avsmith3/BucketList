@@ -1,9 +1,13 @@
 package edu.ncsu.csc.bucketlist;
 
+import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +21,8 @@ public class PlaceActivity extends ActionBarActivity {
     private MenuItem editMenuItem;
     private MenuItem doneMenuItem;
     private boolean inEditMode;
+    private TextView placeComment;
+    private EditText commentEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,19 +46,39 @@ public class PlaceActivity extends ActionBarActivity {
 
         TextView placeTitle = (TextView) findViewById(R.id.place_title);
         placeTitle.setText(entry.infoTitle);
+
         TextView placeSnippet = (TextView) findViewById(R.id.place_snippet);
         placeSnippet.setText(entry.infoSnippet);
+
         int userRating = entry.rating;
         RatingBar ratingBar = (RatingBar) findViewById(R.id.place_rating);
         ratingBar.setRating(userRating);
-        TextView placeComment = (TextView) findViewById(R.id.place_comment);
-        placeComment.setText(entry.comment);
+
+        placeComment = (TextView) findViewById(R.id.place_comment);
+        commentEdit = (EditText) findViewById(R.id.place_comment_edit);
+
+        if (entry.comment.equals("")) {
+            placeComment.setText("To leave a review, press edit button.");
+            commentEdit.setHint("Enter your review here.");
+        } else {
+            placeComment.setText(entry.comment);
+            commentEdit.setText(entry.comment);
+        }
+
+        if(inEditMode) {
+            commentEdit.setVisibility(View.VISIBLE);
+            placeComment.setVisibility(View.GONE);
+        } else {
+            placeComment.setVisibility(View.VISIBLE);
+            commentEdit.setVisibility(View.GONE);
+        }
 
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 if (entry.visited == 1) {
                     mydb.updateEntryRating(entryId, (int) rating);
+                    entry = mydb.getEntry(entryId);
                 } else if (entry.visited == 0) {
                     ratingBar.setRating(0);
                     Toast.makeText(getApplicationContext(), "Please mark place as visited before rating.", Toast.LENGTH_LONG).show();
@@ -91,9 +117,16 @@ public class PlaceActivity extends ActionBarActivity {
         // allow user to edit their place rating and comment
         if ( id == R.id.action_edit_place ) {
 
-            inEditMode = true;
-            editMenuItem.setVisible(false);
-            doneMenuItem.setVisible(true);
+            if (entry.visited == 1) {
+                inEditMode = true;
+                editMenuItem.setVisible(false);
+                doneMenuItem.setVisible(true);
+
+                commentEdit.setVisibility(View.VISIBLE);
+                placeComment.setVisibility(View.GONE);
+            } else if (entry.visited == 0) {
+                Toast.makeText(getApplicationContext(), "Please mark place as visited before entering review.", Toast.LENGTH_LONG).show();
+            }
 
             return true;
 
@@ -104,6 +137,20 @@ public class PlaceActivity extends ActionBarActivity {
             // change back to normal view
             editMenuItem.setVisible(true);
             doneMenuItem.setVisible(false);
+
+            // hide soft keyboard if user pressed done without making keyboard go away
+            InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            mgr.hideSoftInputFromWindow(commentEdit.getWindowToken(), 0);
+
+            placeComment.setText(commentEdit.getText());
+            mydb.updateEntryComment(entryId, commentEdit.getText().toString().trim());
+            entry = mydb.getEntry(entryId);
+            if (entry.comment.equals("")) {
+                placeComment.setText("To leave a review, press edit button.");
+                commentEdit.setHint("Enter your review here.");
+            }
+            commentEdit.setVisibility(View.GONE);
+            placeComment.setVisibility(View.VISIBLE);
 
             return true;
         }
