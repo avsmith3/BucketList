@@ -1,6 +1,7 @@
 package edu.ncsu.csc.bucketlist;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -10,8 +11,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,11 +27,24 @@ public class DisplayBucket extends ActionBarActivity {
     private DBHelper mydb;
     private long dbUserId;
     private ImageMap imageMap;
+    private MenuItem editMenuItem;
+    private MenuItem doneMenuItem;
+    private PlaceListAdapter listAdapter;
+    private ArrayList<EntryBean> entries;
+    private boolean inEditMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_bucket);
+
+        // Check whether we're recreating a previously destroyed instance
+        if (savedInstanceState != null) {
+            // Restore value of members from saved state
+            inEditMode = savedInstanceState.getBoolean("MODE");
+        } else {
+            inEditMode = false;
+        }
 
         mydb = new DBHelper(this);
         imageMap = new ImageMap();
@@ -39,6 +55,7 @@ public class DisplayBucket extends ActionBarActivity {
         Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
 
         if (extras != null) {
+            // bucket id
             long value = extras.getLong("id");
             if (value > 0) {
                 BucketBean bucket = mydb.getBucket(value);
@@ -50,13 +67,12 @@ public class DisplayBucket extends ActionBarActivity {
                 actionBar.setDisplayUseLogoEnabled(true);
                 actionBar.setDisplayShowHomeEnabled(true);
 
-                ArrayList<EntryBean> entries = mydb.getEntriesFor(value);
-                ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, entries);
+                entries = mydb.getEntriesFor(value);
+                listAdapter = new PlaceListAdapter(this, entries);
+                listAdapter.setMode(inEditMode);
 
-                ListView list = (ListView)findViewById(R.id.bucketList);
-                list.setAdapter(arrayAdapter);
-
-
+                ListView list = (ListView)findViewById(R.id.placesList);
+                list.setAdapter(listAdapter);
             }
         }
 
@@ -67,6 +83,17 @@ public class DisplayBucket extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_display_bucket, menu);
+        if (!inEditMode) {
+            menu.getItem(0).setVisible(true);
+            menu.getItem(1).setVisible(false);
+        } else {
+            menu.getItem(0).setVisible(false);
+            menu.getItem(1).setVisible(true);
+        }
+
+        editMenuItem = menu.findItem(R.id.action_edit_place);
+        doneMenuItem = menu.findItem(R.id.action_edit_place_done);
+
         return true;
     }
 
@@ -79,11 +106,40 @@ public class DisplayBucket extends ActionBarActivity {
         super.onOptionsItemSelected(item);
 
 
-        if (id == R.id.action_delete_place) {
+        // single edit action for deleting or editing bucket name
+        if ( id == R.id.action_edit_place ) {
+
+            inEditMode = true;
+            editMenuItem.setVisible(false);
+            doneMenuItem.setVisible(true);
+
+            listAdapter.setMode(inEditMode);
+            listAdapter.notifyDataSetChanged();
+            return true;
+
+        } else if ( id == R.id.action_edit_place_done ) {
+
+            inEditMode = false;
+
+            // change back to normal view
+            editMenuItem.setVisible(true);
+            doneMenuItem.setVisible(false);
+
+            listAdapter.setMode(inEditMode);
+            listAdapter.notifyDataSetChanged();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        // Save state
+        savedInstanceState.putBoolean("MODE", inEditMode);
+
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
     }
 
 }

@@ -1,6 +1,5 @@
 package edu.ncsu.csc.bucketlist;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Address;
@@ -10,28 +9,19 @@ import android.os.Bundle;
 import android.location.Location;
 import android.location.LocationListener;
 import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.places.PlaceLikelihood;
-import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
@@ -49,8 +39,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -140,7 +128,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
         listLayout = (LinearLayout) findViewById(R.id.list_layout);
         imageMap = new ImageMap();
         ArrayList<BucketBean> buckets = mydb.getAllBucketsForUser(dbUserId);
-        CustomListAdapter listAdapter = new CustomListAdapter(MapsActivity.this, buckets, imageMap.getHashMap());
+        BucketListAdapter listAdapter = new BucketListAdapter(MapsActivity.this, buckets, imageMap.getHashMap());
 
         list = (ListView) findViewById(R.id.mapsListView);
         list.setAdapter(listAdapter);

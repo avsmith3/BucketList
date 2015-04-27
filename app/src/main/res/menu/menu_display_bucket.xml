@@ -4,8 +4,12 @@
     tools:context="edu.ncsu.csc.bucketlist.DisplayBucket">
 
     <item
-        android:id="@+id/action_delete_place"
-        android:icon="@drawable/ic_action_discard"
-        android:title="Delete Place"
+        android:id="@+id/action_edit_place"
+        android:icon="@drawable/ic_action_edit"
+        android:title="Edit"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_edit_place_done"
+        android:title="Done"
         app:showAsAction="ifRoom"/>
 </menu>

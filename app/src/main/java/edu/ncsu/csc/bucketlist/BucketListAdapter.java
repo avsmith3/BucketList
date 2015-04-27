@@ -1,12 +1,9 @@
 package edu.ncsu.csc.bucketlist;
 
 import android.app.Activity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -19,7 +16,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class CustomListAdapter extends ArrayAdapter<BucketBean> {
+public class BucketListAdapter extends ArrayAdapter<BucketBean> {
 
     private final Activity context;
     private final HashMap<String, ArrayList<Integer>> hashMap;
@@ -28,9 +25,9 @@ public class CustomListAdapter extends ArrayAdapter<BucketBean> {
     private DBHelper mydb;
     private String previousBucketName;
 
-    public CustomListAdapter(Activity context, ArrayList<BucketBean> buckets, HashMap<String, ArrayList<Integer>> hashMap)
+    public BucketListAdapter(Activity context, ArrayList<BucketBean> buckets, HashMap<String, ArrayList<Integer>> hashMap)
     {
-        super(context, R.layout.bucket_listview_layout, buckets);
+        super(context, R.layout.mybuckets_listview, buckets);
 
         this.context = context;
         this.hashMap = hashMap;
@@ -45,7 +42,7 @@ public class CustomListAdapter extends ArrayAdapter<BucketBean> {
 
     public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
-        View rowView = inflater.inflate(R.layout.bucket_listview_layout, null, true);
+        View rowView = inflater.inflate(R.layout.mybuckets_listview, null, true);
 
         final TextView titleText = (TextView) rowView.findViewById(R.id.list_item_name);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.list_item_img);
