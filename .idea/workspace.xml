@@ -59,7 +59,7 @@
       <file leaf-file-name="PlaceListAdapter.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/PlaceListAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.357143" vertical-offset="1069" max-vertical-offset="1989">
+            <state vertical-scroll-proportion="-6.214286" vertical-offset="1101" max-vertical-offset="1989">
               <caret line="77" column="81" selection-start-line="77" selection-start-column="81" selection-end-line="77" selection-end-column="81" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -103,23 +103,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MyBuckets.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/MyBuckets.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.428571" vertical-offset="1752" max-vertical-offset="2482">
-              <caret line="115" column="0" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="DisplayBucket.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/DisplayBucket.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.7266436" vertical-offset="2063" max-vertical-offset="2669">
-              <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+            <state vertical-scroll-proportion="-5.33564" vertical-offset="2137" max-vertical-offset="2754">
+              <caret line="35" column="26" selection-start-line="35" selection-start-column="26" selection-end-line="35" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -142,9 +130,21 @@
       <file leaf-file-name="PlaceActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/PlaceActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2414" max-vertical-offset="2754">
-              <caret line="146" column="43" selection-start-line="146" selection-start-column="43" selection-end-line="146" selection-end-column="43" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="2211" max-vertical-offset="2754">
+              <caret line="134" column="31" selection-start-line="134" selection-start-column="31" selection-end-line="134" selection-end-column="31" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MyBuckets.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/MyBuckets.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2482">
+              <caret line="114" column="40" selection-start-line="114" selection-start-column="40" selection-end-line="114" selection-end-column="40" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -1621,12 +1621,12 @@
         <option value="$PROJECT_DIR$/app/src/main/res/menu/menu_place.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/menu_display_bucket.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/MyBuckets.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/DisplayBucket.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/TopBuckets.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_place.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/PlaceActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/PlaceListAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/PlaceActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/DisplayBucket.java" />
       </list>
     </option>
   </component>
@@ -2932,27 +2932,9 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/MyBuckets.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.428571" vertical-offset="1752" max-vertical-offset="2482">
-          <caret line="115" column="0" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/PlaceActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2414" max-vertical-offset="2754">
-          <caret line="146" column="43" selection-start-line="146" selection-start-column="43" selection-end-line="146" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/PlaceListAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.357143" vertical-offset="1069" max-vertical-offset="1989">
+        <state vertical-scroll-proportion="-6.214286" vertical-offset="1101" max-vertical-offset="1989">
           <caret line="77" column="81" selection-start-line="77" selection-start-column="81" selection-end-line="77" selection-end-column="81" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -2964,10 +2946,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/PlaceActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1917" max-vertical-offset="2754">
+          <caret line="134" column="31" selection-start-line="134" selection-start-column="31" selection-end-line="134" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/MyBuckets.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2482">
+          <caret line="114" column="40" selection-start-line="114" selection-start-column="40" selection-end-line="114" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ncsu/csc/bucketlist/DisplayBucket.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.7266436" vertical-offset="2063" max-vertical-offset="2669">
-          <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+        <state vertical-scroll-proportion="-5.33564" vertical-offset="2137" max-vertical-offset="2754">
+          <caret line="35" column="26" selection-start-line="35" selection-start-column="26" selection-end-line="35" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

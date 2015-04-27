@@ -33,6 +33,7 @@ public class DisplayBucket extends ActionBarActivity {
     private PlaceListAdapter listAdapter;
     private ArrayList<EntryBean> entries;
     private boolean inEditMode;
+    private long bucketId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +57,7 @@ public class DisplayBucket extends ActionBarActivity {
         Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
 
         if (extras != null) {
-            long bucketId = extras.getLong("id");
+            bucketId = extras.getLong("id");
             if (bucketId > 0) {
                 BucketBean bucket = mydb.getBucket(bucketId);
 
@@ -129,6 +130,10 @@ public class DisplayBucket extends ActionBarActivity {
         } else if ( id == R.id.action_delete_place_done ) {
 
             inEditMode = false;
+            // update bucket list to reflect changes to database
+            listAdapter.clear();
+            entries = mydb.getEntriesFor(bucketId);
+            listAdapter.addAll(entries);
 
             // change back to normal view
             editMenuItem.setVisible(true);
