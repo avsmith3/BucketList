@@ -1,6 +1,7 @@
 package edu.ncsu.csc.bucketlist;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +44,7 @@ public class PlaceListAdapter extends ArrayAdapter<EntryBean> {
         View rowView = inflater.inflate(R.layout.displaybucket_listview, null, true);
 
         CheckBox visitedBox = (CheckBox) rowView.findViewById(R.id.visited_checkBox);
+        visitedBox.setTag(position);
         TextView place = (TextView) rowView.findViewById(R.id.list_item_place);
         ImageButton deletePlaceBtn = (ImageButton) rowView.findViewById(R.id.deletePlaceBtn);
         deletePlaceBtn.setTag(position);
@@ -61,10 +63,26 @@ public class PlaceListAdapter extends ArrayAdapter<EntryBean> {
             deletePlaceBtn.setVisibility(View.GONE);
         }
 
+        visitedBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Update visited value for entry in database here - need db function
+                CheckBox box = (CheckBox)v;
+                int index = (Integer)v.getTag();
+                Log.i("App", "Checkbox clicked Position:" + index);
+                EntryBean currentEntry = entries.get(index);
+                if (box.isChecked()) {
+                    mydb.updateEntryCheckBox(currentEntry.id, 1);
+                } else {
+                    mydb.updateEntryCheckBox(currentEntry.id, 0);
+                }
+            }
+        });
+
         visitedBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // Update visited value for entry in database here - need db function
+
 
             }
         });

@@ -22,6 +22,8 @@
     <RatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:stepSize="1.0"
+        android:numStars="5"
         style="@style/customRatingBar"
         android:id="@+id/place_rating"/>
 
