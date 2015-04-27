@@ -94,7 +94,6 @@ public class MyBuckets extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        super.onOptionsItemSelected(item);
 
         // single edit action for deleting or editing bucket name
         if ( id == R.id.action_edit_bucket ) {

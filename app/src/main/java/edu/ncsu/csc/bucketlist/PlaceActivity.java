@@ -14,11 +14,22 @@ public class PlaceActivity extends ActionBarActivity {
     private long dbUserId;
     private long entryId;
     private EntryBean entry;
+    private MenuItem editMenuItem;
+    private MenuItem doneMenuItem;
+    private boolean inEditMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place);
+
+        // Check whether we're recreating a previously destroyed instance
+        if (savedInstanceState != null) {
+            // Restore value of members from saved state
+            inEditMode = savedInstanceState.getBoolean("MODE");
+        } else {
+            inEditMode = false;
+        }
 
         mydb = new DBHelper(this);
         dbUserId = getIntent().getLongExtra("DB_USER_ID", -1);
@@ -36,6 +47,18 @@ public class PlaceActivity extends ActionBarActivity {
         ratingBar.setRating(userRating);
         TextView placeComment = (TextView) findViewById(R.id.place_comment);
         placeComment.setText(entry.comment);
+
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                if (entry.visited == 1) {
+                    mydb.updateEntryRating(entryId, (int) rating);
+                } else if (entry.visited == 0) {
+                    ratingBar.setRating(0);
+                    Toast.makeText(getApplicationContext(), "Please mark place as visited before rating.", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
 
@@ -43,6 +66,18 @@ public class PlaceActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_place, menu);
+
+        if (!inEditMode) {
+            menu.getItem(0).setVisible(true);
+            menu.getItem(1).setVisible(false);
+        } else {
+            menu.getItem(0).setVisible(false);
+            menu.getItem(1).setVisible(true);
+        }
+
+        editMenuItem = menu.findItem(R.id.action_edit_place);
+        doneMenuItem = menu.findItem(R.id.action_edit_place_done);
+
         return true;
     }
 
@@ -53,11 +88,35 @@ public class PlaceActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        // allow user to edit their place rating and comment
+        if ( id == R.id.action_edit_place ) {
+
+            inEditMode = true;
+            editMenuItem.setVisible(false);
+            doneMenuItem.setVisible(true);
+
+            return true;
+
+        } else if ( id == R.id.action_edit_place_done ) {
+
+            inEditMode = false;
+
+            // change back to normal view
+            editMenuItem.setVisible(true);
+            doneMenuItem.setVisible(false);
+
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        // Save state
+        savedInstanceState.putBoolean("MODE", inEditMode);
+
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
     }
 }

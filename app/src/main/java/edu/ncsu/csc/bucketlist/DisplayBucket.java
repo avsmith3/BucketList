@@ -102,8 +102,8 @@ public class DisplayBucket extends ActionBarActivity {
             menu.getItem(1).setVisible(true);
         }
 
-        editMenuItem = menu.findItem(R.id.action_edit_place);
-        doneMenuItem = menu.findItem(R.id.action_edit_place_done);
+        editMenuItem = menu.findItem(R.id.action_delete_place);
+        doneMenuItem = menu.findItem(R.id.action_delete_place_done);
 
         return true;
     }
@@ -114,11 +114,9 @@ public class DisplayBucket extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        super.onOptionsItemSelected(item);
 
-
-        // single edit action for deleting or editing bucket name
-        if ( id == R.id.action_edit_place ) {
+        // allow user to delete place
+        if ( id == R.id.action_delete_place ) {
 
             inEditMode = true;
             editMenuItem.setVisible(false);
@@ -128,7 +126,7 @@ public class DisplayBucket extends ActionBarActivity {
             listAdapter.notifyDataSetChanged();
             return true;
 
-        } else if ( id == R.id.action_edit_place_done ) {
+        } else if ( id == R.id.action_delete_place_done ) {
 
             inEditMode = false;
 
