@@ -190,9 +190,6 @@ public class DBHelper extends SQLiteOpenHelper{
         return db.insert("bucketentries", null, contentValues);
     }
 
-    /*
-    // NEEDED FUNCTIONS!!
-    // not sure if this is right - Kurt please check and fix
     public int updateEntryCheckBox(long id, int visited) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -201,14 +198,18 @@ public class DBHelper extends SQLiteOpenHelper{
     }
 
     public int updateEntryRating(long id, int rating) {
-
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("rating", rating);
+        return db.update("bucketentries", contentValues, "id = ? ", new String[] { Long.toString(id) });
     }
 
     public int updateEntryComment(long id, String comment) {
-
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("comment", comment);
+        return db.update("bucketentries", contentValues, "id = ? ", new String[] { Long.toString(id) });
     }
-    */
-
 
     /**
      * @return The number of rows affected. (Hint: zero is error, bucket did not exist.)
