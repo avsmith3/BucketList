@@ -248,13 +248,40 @@ public class DBHelper extends SQLiteOpenHelper{
     }
 
     /**
-     * @return The list of buckets.
+     * @return The list of entries.
      */
     public ArrayList<EntryBean> getEntriesFor(long bucketid) {
         ArrayList<EntryBean> array_list = new ArrayList<EntryBean>();
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery( "select * from bucketentries left join bucketentryassociations where bucketentryassociations.bucketid = ? and bucketentryassociations.entryid = bucketentries.id", new String[] { Long.toString(bucketid) });
+        res.moveToFirst();
+        while(res.isAfterLast() == false){
+            EntryBean bean = new EntryBean();
+            bean.id = res.getLong(res.getColumnIndex("id"));
+            bean.name = res.getString(res.getColumnIndex("name"));
+            bean.latitude = res.getDouble(res.getColumnIndex("latitude"));
+            bean.longitude = res.getDouble(res.getColumnIndex("longitude"));
+            bean.comment = res.getString(res.getColumnIndex("comment"));
+            bean.rating = res.getInt(res.getColumnIndex("rating"));
+            bean.visited = res.getInt(res.getColumnIndex("visited"));
+            bean.infoTitle = res.getString(res.getColumnIndex("infoTitle"));
+            bean.infoSnippet = res.getString(res.getColumnIndex("infoSnippet"));
+            array_list.add(bean);
+            res.moveToNext();
+        }
+        res.close();
+        return array_list;
+    }
+
+    /**
+     * @return The list of buckets.
+     */
+    public ArrayList<EntryBean> getTopEntriesForUser(long userid, int n) {
+        ArrayList<EntryBean> array_list = new ArrayList<EntryBean>();
+        //hp = new HashMap();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery( "select bucketentries.* from bucketentries left join bucketentryassociations left join buckets where bucketentries.visited != 0 and bucketentryassociations.bucketid = buckets.id and buckets.userid = ? and bucketentryassociations.entryid = bucketentries.id ORDER BY bucketentries.rating DESC LIMIT ?", new String[] { Long.toString(userid), Integer.toString(n) });
         res.moveToFirst();
         while(res.isAfterLast() == false){
             EntryBean bean = new EntryBean();
