@@ -18,6 +18,7 @@ public class NewBucket extends ActionBarActivity {
     private long dbUserId;
     private String imageTag;
     private ImageView userBucket;
+    private boolean imageClicked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,20 @@ public class NewBucket extends ActionBarActivity {
         String welcomeTxt = getResources().getString(R.string.welcomeText) + ", " + dbUserId + "!";
         Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
         userBucket = (ImageView) findViewById(R.id.userBucket);
+
+        // Check whether we're recreating a previously destroyed instance
+        if (savedInstanceState != null) {
+            // Restore value of members from saved state
+            imageClicked = savedInstanceState.getBoolean("MODE");
+            imageTag = savedInstanceState.getString("TAG");
+            if (imageClicked) {
+                setImage(imageTag);
+                userBucket.setVisibility(View.VISIBLE);
+            }
+        } else {
+            imageClicked = false;
+        }
+
     }
 
     // Enforce that an image has been selected as well as a name typed in
@@ -47,6 +62,7 @@ public class NewBucket extends ActionBarActivity {
                 Toast.makeText(getApplicationContext(), "New Bucket Created!", Toast.LENGTH_SHORT).show();
                 editText.setText("");
                 userBucket.setVisibility(View.INVISIBLE);
+                imageClicked = false;
 
             } else {
                 Toast.makeText(getApplicationContext(), "Couldn't create new bucket!", Toast.LENGTH_SHORT).show();
@@ -80,31 +96,48 @@ public class NewBucket extends ActionBarActivity {
 
     public void showBucketImage(View view) {
 
+        imageClicked = true;
         userBucket.setVisibility(View.VISIBLE);
         imageTag = (String)view.getTag();
-        if (view.getTag().equals("art")) {
+        setImage(imageTag);
+    }
+
+    public void setImage(String tag) {
+
+        if (tag.equals("art")) {
             userBucket.setImageResource(R.drawable.art);
 
-        } else if (view.getTag().equals("entertainment")) {
+        } else if (tag.equals("entertainment")) {
             userBucket.setImageResource(R.drawable.entertainment);
 
-        } else if (view.getTag().equals("food")) {
+        } else if (tag.equals("food")) {
             userBucket.setImageResource(R.drawable.food);
 
-        } else if (view.getTag().equals("kid")) {
+        } else if (tag.equals("kid")) {
             userBucket.setImageResource(R.drawable.kid);
 
-        } else if (view.getTag().equals("parks")) {
+        } else if (tag.equals("parks")) {
             userBucket.setImageResource(R.drawable.parks);
 
-        } else if (view.getTag().equals("shopping")) {
+        } else if (tag.equals("shopping")) {
             userBucket.setImageResource(R.drawable.shopping);
 
-        } else if (view.getTag().equals("sports")) {
+        } else if (tag.equals("sports")) {
             userBucket.setImageResource(R.drawable.sports);
 
-        } else if (view.getTag().equals("standard")) {
+        } else if (tag.equals("standard")) {
             userBucket.setImageResource(R.drawable.standard);
         }
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        // Save state
+        savedInstanceState.putBoolean("MODE", imageClicked);
+        savedInstanceState.putString("TAG", imageTag);
+
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
     }
 }
