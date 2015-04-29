@@ -54,7 +54,7 @@
         </activity>
         <activity
             android:name=".HomePage"
-            android:label="@string/title_activity_home_page" >
+            android:label="@string/title_activity_home_page">
         </activity>
         <activity
             android:name=".MyBuckets"

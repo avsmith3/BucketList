@@ -1,10 +1,10 @@
 package edu.ncsu.csc.bucketlist;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -41,17 +41,23 @@ public class HomePage extends MainActivity {
         String welcomeTxt = getResources().getString(R.string.welcomeText) + ", " + userName + "!";
         Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
 
-        /*
-        if (userName != null) {
-            String welcomeTxt = getResources().getString(R.string.welcomeText) + ", " + userName + "!";
-            Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
-        }
-        else {
-            //Try to fetch the user name and email from static variables in MainActivity (works but not nice)?
-            //or logout ?
-        }*/
     }
 
+    /*
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+            setContentView(R.layout.activity_home_page_horizontal);
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+            setContentView(R.layout.activity_home_page);
+        }
+    }
+*/
     protected void onStart() {
         super.onStart();
         mGoogleApiClient.connect();

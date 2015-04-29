@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+android:paddingRight="@dimen/activity_horizontal_margin"
+android:paddingTop="@dimen/activity_vertical_margin"
+android:paddingBottom="@dimen/activity_vertical_margin"
+tools:context="edu.ncsu.csc.bucketlist.HomePage"
+android:orientation="vertical">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/myBucketsBtn"
+        android:id="@+id/myBucketsBtn"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:src="@drawable/mybuckets"
+        android:onClick="showMyBuckets"
+        android:contentDescription="@string/myBucketsBtn"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/newBucketBtn"
+        android:id="@+id/newBucketBtn"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:src="@drawable/newbucket"
+        android:onClick="addNewBucket"
+        android:contentDescription="@string/newBucketBtn"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/exploreMapBtn"
+        android:id="@+id/exploreMapBtn"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:src="@drawable/exploremap"
+        android:onClick="exploreMap"
+        android:contentDescription="@string/exploreMapBtn"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/shareBucketsBtn"
+        android:id="@+id/shareBucketsBtn"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:src="@drawable/sharebuckets"
+        android:onClick="shareBuckets"
+        android:contentDescription="@string/shareBucketsBtn"/>
+
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/topBucketsBtn"
+        android:id="@+id/topBucketsBtn"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:src="@drawable/topbuckets"
+        android:onClick="showTopBuckets"
+        android:contentDescription="@string/topBucketsBtn"/>
+
+    <!--  <ImageButton
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:background="#C0DFDB"
+          android:layout_weight="1"
+          android:text="@string/settingsBtn"
+          android:id="@+id/settingsBtn"
+          android:scaleType="fitCenter"
+          android:adjustViewBounds="true"
+          android:src="@drawable/settings"
+          android:contentDescription="@string/settingsBtn"/> -->
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/logoutBtn"
+        android:onClick="signOutFromGplus"
+        android:id="@+id/logout_button"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:src="@drawable/logout"
+        android:contentDescription="@string/logoutBtn"/>
+</LinearLayout>
+
+</LinearLayout>
