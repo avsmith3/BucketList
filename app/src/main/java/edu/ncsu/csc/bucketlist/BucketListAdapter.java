@@ -103,8 +103,8 @@ public class BucketListAdapter extends ArrayAdapter<BucketBean> {
                     int index = (Integer) v.getTag();
                     Log.i("App", "Edit Text pos:" + index);
                         BucketBean currentBucket = buckets.get(index);
-                        String edit = ((EditText) v).getText().toString();
-                        if (!edit.trim().equals("")) {
+                        String edit = ((EditText) v).getText().toString().trim();
+                        if (!edit.equals("")) {
                             mydb.updateBucket(currentBucket.id, edit, currentBucket.image);
                         }
                 }

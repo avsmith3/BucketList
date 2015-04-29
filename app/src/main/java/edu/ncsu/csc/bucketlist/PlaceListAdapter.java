@@ -3,13 +3,16 @@ package edu.ncsu.csc.bucketlist;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,11 +49,15 @@ public class PlaceListAdapter extends ArrayAdapter<EntryBean> {
         CheckBox visitedBox = (CheckBox) rowView.findViewById(R.id.visited_checkBox);
         visitedBox.setTag(position);
         TextView place = (TextView) rowView.findViewById(R.id.list_item_place);
+        EditText editableText = (EditText) rowView.findViewById(R.id.list_item_place_edit);
+        editableText.setTag(position);
         ImageButton deletePlaceBtn = (ImageButton) rowView.findViewById(R.id.deletePlaceBtn);
         deletePlaceBtn.setTag(position);
 
         EntryBean entry = entries.get(position);
         place.setText(entry.name);
+        editableText.setText(entry.name);
+
         if (entry.visited == 0) {
            visitedBox.setChecked(false);
         } else if (entry.visited == 1) {
@@ -58,15 +65,35 @@ public class PlaceListAdapter extends ArrayAdapter<EntryBean> {
         }
 
         if (inEditMode) {
+            place.setVisibility(View.GONE);
+            editableText.setVisibility(View.VISIBLE);
             deletePlaceBtn.setVisibility(View.VISIBLE);
         } else {
+            place.setVisibility(View.VISIBLE);
+            editableText.setVisibility(View.GONE);
             deletePlaceBtn.setVisibility(View.GONE);
         }
+
+        editableText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+
+                    int index = (Integer) v.getTag();
+                    Log.i("App", "Edit Text pos:" + index);
+                    EntryBean currentEntry = entries.get(index);
+                    String edit = ((EditText) v).getText().toString().trim();
+                    if (!edit.equals("")) {
+                        mydb.updateEntryName(currentEntry.id, edit);
+                    }
+                }
+                return false;
+            }
+        });
 
         visitedBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Update visited value for entry in database here - need db function
                 CheckBox box = (CheckBox)v;
                 int index = (Integer)v.getTag();
                 Log.i("App", "Checkbox clicked Position:" + index);
@@ -79,14 +106,6 @@ public class PlaceListAdapter extends ArrayAdapter<EntryBean> {
                     mydb.updateEntryRating(currentEntry.id, 0);
                     mydb.updateEntryComment(currentEntry.id, "");
                 }
-            }
-        });
-
-        visitedBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-
             }
         });
 

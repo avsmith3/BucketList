@@ -116,6 +116,11 @@ public class DisplayBucket extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        // update bucket list to reflect changes to database
+        listAdapter.clear();
+        entries = mydb.getEntriesFor(bucketId);
+        listAdapter.addAll(entries);
+
         // allow user to delete place
         if ( id == R.id.action_delete_place ) {
 
@@ -130,10 +135,13 @@ public class DisplayBucket extends ActionBarActivity {
         } else if ( id == R.id.action_delete_place_done ) {
 
             inEditMode = false;
-            // update bucket list to reflect changes to database
-            listAdapter.clear();
-            entries = mydb.getEntriesFor(bucketId);
-            listAdapter.addAll(entries);
+
+            // hide soft keyboard if user pressed done without making keyboard go away
+            EditText listItemEdit = (EditText) findViewById(R.id.list_item_place_edit);
+            InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (listItemEdit != null) {
+                mgr.hideSoftInputFromWindow(listItemEdit.getWindowToken(), 0);
+            }
 
             // change back to normal view
             editMenuItem.setVisible(true);

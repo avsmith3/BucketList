@@ -41,6 +41,8 @@ public class PlaceActivity extends ActionBarActivity {
         dbUserId = getIntent().getLongExtra("DB_USER_ID", -1);
         entryId = getIntent().getLongExtra("ENTRY_ID", -1);
         entry = mydb.getEntry(entryId);
+        setTitle(entry.name);
+
         String welcomeTxt = getResources().getString(R.string.welcomeText) + ", " + dbUserId + "!";
         Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
 
@@ -146,7 +148,7 @@ public class PlaceActivity extends ActionBarActivity {
             mydb.updateEntryComment(entryId, commentEdit.getText().toString().trim());
             entry = mydb.getEntry(entryId);
             if (entry.comment.equals("")) {
-                placeComment.setText("To leave a review, press edit button.");
+                placeComment.setText("To leave a review, press the edit button.");
                 commentEdit.setHint("Enter your review here.");
             }
             commentEdit.setVisibility(View.GONE);

@@ -117,7 +117,9 @@ public class MyBuckets extends ActionBarActivity {
             // hide soft keyboard if user pressed done without making keyboard go away
             EditText listItemEdit = (EditText) findViewById(R.id.list_item_edit_name);
             InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            mgr.hideSoftInputFromWindow(listItemEdit.getWindowToken(), 0);
+            if (listItemEdit != null) {
+                mgr.hideSoftInputFromWindow(listItemEdit.getWindowToken(), 0);
+            }
 
             // change back to normal view
             editMenuItem.setVisible(true);

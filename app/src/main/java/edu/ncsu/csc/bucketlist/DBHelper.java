@@ -190,6 +190,13 @@ public class DBHelper extends SQLiteOpenHelper{
         return db.insert("bucketentries", null, contentValues);
     }
 
+    public int updateEntryName(long id, String name) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("name", name);
+        return db.update("bucketentries", contentValues, "id = ? ", new String[] { Long.toString(id) });
+    }
+
     public int updateEntryCheckBox(long id, int visited) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -282,7 +289,7 @@ public class DBHelper extends SQLiteOpenHelper{
     public int removeFromBucket(long entryid, long bucketid) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete("bucketentryassociations",
-                "entryid = ? , bucketid = ? ",
+                "entryid = ? and bucketid = ? ",
                 new String[] { Long.toString(entryid), Long.toString(bucketid) });
     }
 

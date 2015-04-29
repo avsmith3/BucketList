@@ -25,6 +25,20 @@
         android:layout_toRightOf="@+id/visited_checkBox"
         android:id="@+id/list_item_place" />
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:padding="5dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_alignBaseline="@+id/visited_checkBox"
+        android:layout_alignBottom="@+id/visited_checkBox"
+        android:layout_toRightOf="@+id/visited_checkBox"
+        android:inputType="none"
+        android:singleLine="true"
+        android:imeOptions="actionDone"
+        android:id="@+id/list_item_place_edit"/>
+
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
