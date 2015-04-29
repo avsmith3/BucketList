@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    tools:context="edu.ncsu.csc.bucketlist.NewBucket">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Select Bucket:"
+        android:id="@+id/selectTxt" />
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:columnCount="8"
+        android:rowCount="1">
+
+
+        <ImageView
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:id="@+id/art"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_margin="0dp"
+            android:layout_gravity="fill"
+            android:src="@drawable/art"
+            android:onClick="showBucketImage"
+            android:tag="art"/>
+
+        <ImageView
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:id="@+id/entertainment"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_margin="0dp"
+            android:layout_gravity="fill"
+            android:src="@drawable/entertainment"
+            android:onClick="showBucketImage"
+            android:tag="entertainment"/>
+
+        <ImageView
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:id="@+id/food"
+            android:layout_row="0"
+            android:layout_column="2"
+            android:layout_margin="0dp"
+            android:layout_gravity="fill"
+            android:src="@drawable/food"
+            android:onClick="showBucketImage"
+            android:tag="food"/>
+
+        <ImageView
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:id="@+id/kid"
+            android:layout_row="0"
+            android:layout_column="3"
+            android:layout_margin="0dp"
+            android:layout_gravity="fill"
+            android:src="@drawable/kid"
+            android:onClick="showBucketImage"
+            android:tag="kid"/>
+
+        <ImageView
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:id="@+id/parks"
+            android:layout_row="0"
+            android:layout_column="4"
+            android:layout_margin="0dp"
+            android:layout_gravity="fill"
+            android:src="@drawable/parks"
+            android:onClick="showBucketImage"
+            android:tag="parks"/>
+
+        <ImageView
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:id="@+id/shopping"
+            android:layout_row="0"
+            android:layout_column="5"
+            android:layout_margin="0dp"
+            android:layout_gravity="fill"
+            android:src="@drawable/shopping"
+            android:onClick="showBucketImage"
+            android:tag="shopping"/>
+
+        <ImageView
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:id="@+id/sports"
+            android:layout_row="0"
+            android:layout_column="6"
+            android:layout_margin="0dp"
+            android:layout_gravity="fill"
+            android:src="@drawable/sports"
+            android:onClick="showBucketImage"
+            android:tag="sports"/>
+
+        <ImageView
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:id="@+id/standard"
+            android:layout_row="0"
+            android:layout_column="7"
+            android:layout_margin="0dp"
+            android:layout_gravity="fill"
+            android:src="@drawable/standard"
+            android:onClick="showBucketImage"
+            android:tag="standard"/>
+
+    </GridLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"/>
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:id="@+id/userBucket" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter Bucket Name"
+        android:id="@+id/bucketName"
+        android:inputType="textImeMultiLine"
+        android:singleLine="true"
+        android:layout_gravity="center_horizontal"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Bucket"
+        android:id="@+id/button"
+        android:layout_gravity="center_horizontal"
+        android:onClick="createButtonClick"/>
+
+</LinearLayout>

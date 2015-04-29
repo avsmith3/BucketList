@@ -67,7 +67,8 @@
         </activity>
         <activity
             android:name=".NewBucket"
-            android:label="@string/title_activity_new_bucket" >
+            android:label="@string/title_activity_new_bucket"
+            android:windowSoftInputMode="stateHidden">
         </activity>
         <activity
             android:name=".TopBuckets"
