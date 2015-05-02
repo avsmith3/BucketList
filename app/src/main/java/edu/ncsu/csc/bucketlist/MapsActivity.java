@@ -209,7 +209,11 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
                     }
                 }
                 if (clickedMarker != null) {
-                    listLayout.setVisibility(View.VISIBLE);
+                    if (listLayout.getVisibility() == View.VISIBLE){
+                        listLayout.setVisibility(View.GONE);
+                    }else {
+                        listLayout.setVisibility(View.VISIBLE);
+                    }
                 }
                 //If the long click wasnt on a marker, draw a new marker at location
                 else{
