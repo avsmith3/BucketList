@@ -21,6 +21,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.plus.PlusShare;
+
 import java.util.ArrayList;
 
 
@@ -34,6 +36,7 @@ public class DisplayBucket extends ActionBarActivity {
     private ArrayList<EntryBean> entries;
     private boolean inEditMode;
     private long bucketId;
+    private String postString = new String("");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +86,31 @@ public class DisplayBucket extends ActionBarActivity {
                         intent.putExtra("DB_USER_ID", dbUserId);
                         intent.putExtra("ENTRY_ID", entry.id);
                         startActivity(intent);
+                    }
+                });
+
+                //Handle sharing
+                Button share_button = (Button)findViewById(R.id.button_share_bucket_1);
+                postString+=("Here's my #BucketList!\n");
+                postString+= bucket.toString();
+                postString+=(" : \n");
+                for (int i=0;i<entries.size();i++)
+                {
+                    postString+=entries.get(i).toString();
+                    postString+=("\n");
+                }
+                final String pt = postString;
+
+                share_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Launch the Google+ share dialog
+                        Intent shareIntent = new PlusShare.Builder(getApplicationContext())
+                                .setType("text/plain")
+                                .setText(pt)
+                                .getIntent();
+
+                        startActivityForResult(shareIntent, 0);
                     }
                 });
             }

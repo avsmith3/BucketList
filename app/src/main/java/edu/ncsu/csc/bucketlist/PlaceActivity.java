@@ -1,16 +1,22 @@
 package edu.ncsu.csc.bucketlist;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.plus.PlusShare;
 
 
 public class PlaceActivity extends ActionBarActivity {
@@ -24,6 +30,7 @@ public class PlaceActivity extends ActionBarActivity {
     private TextView placeComment;
     private EditText commentEdit;
 
+    String postText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +92,67 @@ public class PlaceActivity extends ActionBarActivity {
                     ratingBar.setRating(0);
                     Toast.makeText(getApplicationContext(), "Please mark place as visited before rating.", Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+
+        //Manage how the share image button handles things
+        Button shareMediaButton = (Button)findViewById(R.id.share_image_button);
+        shareMediaButton.setOnClickListener(new android.view.View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                Intent photoPicker = new Intent(Intent.ACTION_PICK);
+                photoPicker.setType("image/*, video/*");
+                startActivityForResult(photoPicker,1);
+            }
+        });
+
+
+        //Set the text which will be shared on G+
+        postText = new String("I just visited ");
+        postText += placeTitle.getText();
+        postText += ("! \nMy Review: ");
+        postText += placeComment.getText();
+        postText += (" \nI'll give it ");
+        switch ((int)ratingBar.getRating())
+        {
+            case 0:
+                postText += ("0/5");
+                break;
+            case 1:
+                postText+= ("1/5");
+                break;
+            case 2:
+                postText+=("2/5");
+                break;
+            case 3:
+                postText+=("3/5");
+                break;
+            case 4:
+                postText+=("4/5");
+                break;
+            case 5:
+                postText+=("5/5");
+                break;
+            default:
+                break;
+        }
+        postText+=("\n#BucketList");
+
+        final String pt = new String(postText);
+
+        Button shareplacebutton = (Button) findViewById(R.id.share_place_button);
+        shareplacebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Launch the google Plus share dialog
+                Intent shareIntent = new PlusShare.Builder(getApplicationContext())
+                        .setType("text/plain")
+                        .setText(pt)
+                        .getIntent();
+
+                startActivityForResult(shareIntent, 0);
+
             }
         });
     }
@@ -168,4 +236,31 @@ public class PlaceActivity extends ActionBarActivity {
         // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);
     }
+
+    protected void onActivityResult(int requestCode,int resultCode,Intent intent)
+    {
+        super.onActivityResult(requestCode,resultCode,intent);
+
+        if(requestCode == 1)
+        {
+            if(resultCode == RESULT_OK)
+            {
+                Uri selectedImage = intent.getData();
+                ContentResolver cr = this.getContentResolver();
+                String mime = cr.getType(selectedImage);
+                final String pt = postText;
+
+                Intent shareIntent = new PlusShare.Builder(getApplicationContext())
+                        .setType("text/plain")
+                        .setText(pt)
+                        .addStream(selectedImage)
+                        .setType(mime)
+                        .getIntent();
+
+                startActivityForResult(shareIntent,2);
+            }
+
+        }
+    }
+
 }
