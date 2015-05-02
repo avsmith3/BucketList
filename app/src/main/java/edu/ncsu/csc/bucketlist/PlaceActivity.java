@@ -50,8 +50,8 @@ public class PlaceActivity extends ActionBarActivity {
         entry = mydb.getEntry(entryId);
         setTitle(entry.name);
 
-        String welcomeTxt = getResources().getString(R.string.welcomeText) + ", " + dbUserId + "!";
-        Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
+        //String welcomeTxt = getResources().getString(R.string.welcomeText) + ", " + dbUserId + "!";
+        //Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
 
         TextView placeTitle = (TextView) findViewById(R.id.place_title);
         placeTitle.setText(entry.infoTitle);

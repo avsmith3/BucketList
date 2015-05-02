@@ -122,8 +122,8 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
 
         mydb = new DBHelper(this);
         dbUserId = getIntent().getLongExtra("DB_USER_ID", -1);
-        String welcomeTxt = getResources().getString(R.string.welcomeText) + ", " + dbUserId + "!";
-        Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
+        //String welcomeTxt = getResources().getString(R.string.welcomeText) + ", " + dbUserId + "!";
+        //Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
 
         listLayout = (LinearLayout) findViewById(R.id.list_layout);
         imageMap = new ImageMap();
@@ -178,7 +178,8 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
             // Zoom in the Google Map
             mMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULTZOOM));
         } else {
-            Toast.makeText(this,"No location detected", Toast.LENGTH_LONG).show();
+            //Nik: Choosing not to display a negative toast
+            //Toast.makeText(this,"No location detected", Toast.LENGTH_LONG).show();
         }
 
         map.setOnMarkerClickListener(new OnMarkerClickListener() {
@@ -202,7 +203,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
                 clickedMarker = null;
                 for (Marker marker : mapMarkers) {
                     if (Math.abs(marker.getPosition().latitude - latLng.latitude) < 0.05 && Math.abs(marker.getPosition().longitude - latLng.longitude) < 0.05) {
-                        Toast.makeText(MapsActivity.this, "got clicked", Toast.LENGTH_SHORT).show(); //do some stuff
+                        //Toast.makeText(MapsActivity.this, "got clicked", Toast.LENGTH_SHORT).show(); //do some stuff
                         clickedMarker = marker;
                         break;
                     }
@@ -320,6 +321,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
 
             drawMarker(new LatLng(lat, lng), title, placeInfo.toString());
         } else {
+            //Nik: Not commenting as this makes sense to dsplay toast
             Toast.makeText(this, "Location not found", Toast.LENGTH_LONG).show();
         }
     }

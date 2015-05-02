@@ -44,8 +44,8 @@ public class MyBuckets extends ActionBarActivity {
         mydb = new DBHelper(this);
 
         dbUserId = getIntent().getLongExtra("DB_USER_ID", -1);
-        String welcomeTxt = getResources().getString(R.string.welcomeText) + ", " + dbUserId + "!";
-        Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
+        //String welcomeTxt = getResources().getString(R.string.welcomeText) + ", " + dbUserId + "!";
+        //Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
 
         imageMap = new ImageMap();
         buckets = mydb.getAllBucketsForUser(dbUserId);

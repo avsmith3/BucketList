@@ -38,8 +38,8 @@ public class HomePage extends MainActivity {
         googleUserId = intent.getStringExtra(GOOGLE_USER_ID);
         dbUserId = intent.getLongExtra(DB_USER_ID, -1);
 
-        String welcomeTxt = getResources().getString(R.string.welcomeText) + ", " + userName + "!";
-        Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
+        //String welcomeTxt = getResources().getString(R.string.welcomeText) + ", " + userName + "!";
+        //Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
 
     }
 
@@ -123,7 +123,7 @@ public class HomePage extends MainActivity {
             mGoogleApiClient.disconnect();
             mGoogleApiClient.connect();
             Log.d("Debug", "Disconnected");
-            Toast.makeText(this, "User is disconnected!", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "User is disconnected!", Toast.LENGTH_LONG).show();
         }
     }
 }

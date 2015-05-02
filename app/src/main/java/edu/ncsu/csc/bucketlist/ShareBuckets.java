@@ -20,8 +20,8 @@ public class ShareBuckets extends ActionBarActivity {
 
         Bundle extras = getIntent().getExtras();
         dbUserId = extras.getLong("DB_USER_ID", -1);
-        String welcomeTxt = getResources().getString(R.string.welcomeText) + ", " + dbUserId + "!";
-        Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
+        //String welcomeTxt = getResources().getString(R.string.welcomeText) + ", " + dbUserId + "!";
+        //Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
 
     }
 
