@@ -202,7 +202,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
             public void onMapLongClick(LatLng latLng) {
                 clickedMarker = null;
                 for (Marker marker : mapMarkers) {
-                    if (Math.abs(marker.getPosition().latitude - latLng.latitude) < 0.05 && Math.abs(marker.getPosition().longitude - latLng.longitude) < 0.05) {
+                    if (Math.abs(marker.getPosition().latitude - latLng.latitude) < 0.005 && Math.abs(marker.getPosition().longitude - latLng.longitude) < 0.005) {
                         //Toast.makeText(MapsActivity.this, "got clicked", Toast.LENGTH_SHORT).show(); //do some stuff
                         clickedMarker = marker;
                         break;
