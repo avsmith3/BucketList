@@ -211,6 +211,10 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
                 if (clickedMarker != null) {
                     listLayout.setVisibility(View.VISIBLE);
                 }
+                //If the long click wasnt on a marker, draw a new marker at location
+                else{
+                    geoLocateFromLongClick(latLng);
+                }
 
             }
         });
@@ -323,6 +327,44 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
         } else {
             //Nik: Not commenting as this makes sense to dsplay toast
             Toast.makeText(this, "Location not found", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void geoLocateFromLongClick(LatLng markerLocation) {
+
+        Geocoder geo = new Geocoder(this, Locale.getDefault());
+        List<Address> list = null;
+        try {
+            list = geo.getFromLocation(markerLocation.latitude, markerLocation.longitude, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (list != null && list.size() > 0) {
+            Address addr = list.get(0);
+            String title = "";
+            if (addr.getMaxAddressLineIndex() > -1) {
+                title = addr.getAddressLine(0);
+            }
+            StringBuilder placeInfo = new StringBuilder("");
+            for (int i = 1; i < addr.getMaxAddressLineIndex(); i++) {
+                placeInfo.append(addr.getAddressLine(i)).append("\n");
+            }
+            String phone = addr.getPhone();
+            String url = addr.getUrl();
+            if (phone != null) {
+                placeInfo.append(phone).append("\n");
+            }
+            if (url != null) {
+                placeInfo.append(url).append("\n");
+            }
+            Log.i(TAG, title);
+            Log.i(TAG, placeInfo.toString());
+            Log.i(TAG, addr.getFeatureName());
+
+            drawMarker(markerLocation, title, placeInfo.toString());
+        } else {
+            //Nik: Not commenting as this makes sense to dsplay toast
+            Toast.makeText(this, "Nothing found at clicked location", Toast.LENGTH_LONG).show();
         }
     }
 
