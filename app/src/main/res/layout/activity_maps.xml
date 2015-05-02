@@ -19,16 +19,15 @@
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment" />
 
-            <SearchView
-                android:layout_width="wrap_content"
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteTextView"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15px"
-                android:layout_marginTop="15px"
-                android:layout_marginRight="0px"
-                android:layout_marginBottom="0px"
-                android:queryHint="Enter Location"
-                android:id="@+id/searchBox">
-            </SearchView>
+                android:ems="10"
+                android:text="Please enter your place" >
+
+                <requestFocus />
+            </AutoCompleteTextView>
 
         </FrameLayout>
 
@@ -51,8 +50,7 @@
         android:divider="@android:color/darker_gray"
         android:background="@android:color/transparent"
         android:id="@+id/mapsListView">
-
-        </ListView>
+    </ListView>
 
     </LinearLayout>
 
