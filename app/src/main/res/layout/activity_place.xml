@@ -38,19 +38,17 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/place_comment_edit"/>
-    <Button
-        android:id="@+id/share_image_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Say it with a picture!"/>
 
     <Button
         android:id="@+id/share_place_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/sharebuckets"
-        android:text=""
-        />
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:text="Share this place!"/>
 
+    <Button
+        android:id="@+id/share_image_button"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:text="Share this place with a picture!"/>
 
 </LinearLayout>

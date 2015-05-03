@@ -218,6 +218,8 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
                 //If the long click wasnt on a marker, draw a new marker at location
                 else{
                     geoLocateFromLongClick(latLng);
+                    //Use places query to get place names instead of addresses
+                    //https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&types=food&name=cruise&key=AddYourOwnKeyHere
                 }
 
             }
