@@ -1,9 +1,12 @@
 package edu.ncsu.csc.bucketlist;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 
@@ -23,6 +26,14 @@ public class ShareBuckets extends ActionBarActivity {
         //String welcomeTxt = getResources().getString(R.string.welcomeText) + ", " + dbUserId + "!";
         //Toast.makeText(this, welcomeTxt, Toast.LENGTH_LONG).show();
 
+        //Handle sharing
+        Button share_button = (Button)findViewById(R.id.back_button);
+        share_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 

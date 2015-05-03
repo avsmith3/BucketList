@@ -63,7 +63,7 @@ public class NewBucket extends ActionBarActivity {
                 editText.setText("");
                 userBucket.setVisibility(View.INVISIBLE);
                 imageClicked = false;
-
+                imageTag = null;
             } else {
                 Toast.makeText(getApplicationContext(), "Couldn't create new bucket!", Toast.LENGTH_SHORT).show();
             }
