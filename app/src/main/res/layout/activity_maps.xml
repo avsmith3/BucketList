@@ -38,13 +38,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1.0"
-        android:visibility="gone"
+        android:visibility="visible"
         android:orientation="vertical"
         android:id="@+id/list_layout">
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="9"
         android:cacheColorHint="@android:color/white"
         android:drawSelectorOnTop="true"
         android:dividerHeight="1dp"
@@ -55,8 +56,9 @@
 
     <Button
         android:id="@+id/cancel_list_layout"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:text="@string/cancelString"
         android:clickable="true"
         android:enabled="true"
