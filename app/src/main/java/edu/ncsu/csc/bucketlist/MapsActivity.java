@@ -13,6 +13,7 @@ import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -155,6 +156,15 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
             }
         });
 
+        //Handle button to cancel list_layout
+        Button cancel_list_button = (Button)findViewById(R.id.cancel_list_layout);
+
+        cancel_list_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listLayout.setVisibility(View.GONE);
+            }
+        });
      }
 
     @Override
