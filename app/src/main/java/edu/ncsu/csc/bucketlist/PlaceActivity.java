@@ -108,7 +108,7 @@ public class PlaceActivity extends ActionBarActivity {
         });
 
 
-        //Set the text which will be shared on G+
+     /*   //Set the text which will be shared on G+
         postText = new String("I just visited ");
         postText += placeTitle.getText();
         postText += ("! \nMy Review: ");
@@ -140,6 +140,7 @@ public class PlaceActivity extends ActionBarActivity {
         postText+=("\n#BucketList");
 
         final String pt = new String(postText);
+        /*
 
         Button shareplacebutton = (Button) findViewById(R.id.share_place_button);
         shareplacebutton.setOnClickListener(new View.OnClickListener() {
@@ -155,6 +156,57 @@ public class PlaceActivity extends ActionBarActivity {
 
             }
         });
+        */
+    }
+
+    public void share(View view)
+    {
+        EntryBean eb1 = new EntryBean();
+        eb1 = mydb.getEntry(entryId);
+        String post= new String("I just visited ");
+        post+= eb1.toString();
+        post+= ("!\n");
+        post+= eb1.comment.toString();
+        post+=("\nI'll give it ");
+        int rating = eb1.rating;
+        switch (rating)
+        {
+            case 1:
+                post+=("1/5");
+                break;
+            case 2:
+                post+=("2/5");
+                break;
+            case 3:
+                post+=("3/5");
+                break;
+            case 4:
+                post+=("4/5");
+                break;
+            case 5:
+                post+=("5/5");
+                break;
+            default:
+                post+=("0/5");
+                break;
+        }
+        post+= ("\n#BucketList");
+        final String poster = new String(post);
+        Button share_place_button = (Button)findViewById(R.id.share_place_button);
+        share_place_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Launch the google Plus share dialog
+                Intent shareIntent = new PlusShare.Builder(getApplicationContext())
+                        .setType("text/plain")
+                        .setText(poster)
+                        .getIntent();
+
+                startActivityForResult(shareIntent, 0);
+
+            }
+        });
+
     }
 
 

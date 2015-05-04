@@ -208,7 +208,14 @@ public class DBHelper extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("rating", rating);
-        return db.update("bucketentries", contentValues, "id = ? ", new String[] { Long.toString(id) });
+        int result;
+
+        db.beginTransaction();
+        result = db.update("bucketentries", contentValues, "id = ? ", new String[] { Long.toString(id) });
+        db.setTransactionSuccessful();
+        db.endTransaction();
+
+        return result;
     }
 
     public int updateEntryComment(long id, String comment) {
