@@ -63,7 +63,8 @@
         </activity>
         <activity
             android:name=".DisplayBucket"
-            android:label="@string/title_activity_display_bucket" >
+            android:label="@string/title_activity_display_bucket"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name=".NewBucket"
