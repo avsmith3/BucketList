@@ -43,8 +43,7 @@
         android:id="@+id/share_place_button"
         android:layout_width="300dp"
         android:layout_height="60dp"
-        android:text="Share this place!"
-        android:onClick="share"/>
+        android:text="Share this place!"/>
 
     <Button
         android:id="@+id/share_image_button"

@@ -35,6 +35,8 @@ public class DBHelper extends SQLiteOpenHelper{
                 "create table bucketentryassociations " +
                         "(bucketid integer, entryid integer)"
         );
+        db.disableWriteAheadLogging();
+
     }
 
     @Override

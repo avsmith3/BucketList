@@ -99,7 +99,7 @@ public class DisplayBucket extends ActionBarActivity {
                     postString+=entries.get(i).toString();
                     postString+=("\n");
                 }
-                final String pt = postString;
+                final String pt = getDetails();
 
                 share_button.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -113,11 +113,41 @@ public class DisplayBucket extends ActionBarActivity {
                         startActivityForResult(shareIntent, 0);
                     }
                 });
+
+                share_button.setOnClickListener(new View.OnClickListener()
+                {
+                    public void onClick(View v)
+                    {
+
+                        final String poster = getDetails();
+
+                        //Launch the google Plus share dialog
+                        Intent shareIntent = new PlusShare.Builder(getApplicationContext())
+                                .setType("text/plain")
+                                .setText(poster)
+                                .getIntent();
+
+                        startActivityForResult(shareIntent, 0);
+                    }
+
+                });
             }
         }
 
     }
 
+    String getDetails()
+    {
+        String poster = new String("Here's my #BucketList\n");
+
+        for(int i=0;i<entries.size();i++)
+        {
+            poster+=(entries.get(i).toString());
+            poster+=("\n");
+        }
+
+        return poster;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

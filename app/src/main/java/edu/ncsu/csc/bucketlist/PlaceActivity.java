@@ -101,6 +101,8 @@ public class PlaceActivity extends ActionBarActivity {
         {
             public void onClick(View v)
             {
+                final String poster = getEntryDetails();
+
                 Intent photoPicker = new Intent(Intent.ACTION_PICK);
                 photoPicker.setType("image/*, video/*");
                 startActivityForResult(photoPicker,1);
@@ -108,58 +110,27 @@ public class PlaceActivity extends ActionBarActivity {
         });
 
 
-     /*   //Set the text which will be shared on G+
-        postText = new String("I just visited ");
-        postText += placeTitle.getText();
-        postText += ("! \nMy Review: ");
-        postText += placeComment.getText();
-        postText += (" \nI'll give it ");
-        switch ((int)ratingBar.getRating())
+        Button sharePlaceButton = (Button)findViewById(R.id.share_place_button);
+        sharePlaceButton.setOnClickListener(new android.view.View.OnClickListener()
         {
-            case 0:
-                postText += ("0/5");
-                break;
-            case 1:
-                postText+= ("1/5");
-                break;
-            case 2:
-                postText+=("2/5");
-                break;
-            case 3:
-                postText+=("3/5");
-                break;
-            case 4:
-                postText+=("4/5");
-                break;
-            case 5:
-                postText+=("5/5");
-                break;
-            default:
-                break;
-        }
-        postText+=("\n#BucketList");
+            public void onClick(View v)
+            {
 
-        final String pt = new String(postText);
-        /*
+                final String poster = getEntryDetails();
 
-        Button shareplacebutton = (Button) findViewById(R.id.share_place_button);
-        shareplacebutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 //Launch the google Plus share dialog
                 Intent shareIntent = new PlusShare.Builder(getApplicationContext())
                         .setType("text/plain")
-                        .setText(pt)
+                        .setText(poster)
                         .getIntent();
 
                 startActivityForResult(shareIntent, 0);
-
             }
         });
-        */
     }
 
-    public void share(View view)
+
+    String getEntryDetails()
     {
         EntryBean eb1 = new EntryBean();
         eb1 = mydb.getEntry(entryId);
@@ -191,22 +162,7 @@ public class PlaceActivity extends ActionBarActivity {
                 break;
         }
         post+= ("\n#BucketList");
-        final String poster = new String(post);
-        Button share_place_button = (Button)findViewById(R.id.share_place_button);
-        share_place_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Launch the google Plus share dialog
-                Intent shareIntent = new PlusShare.Builder(getApplicationContext())
-                        .setType("text/plain")
-                        .setText(poster)
-                        .getIntent();
-
-                startActivityForResult(shareIntent, 0);
-
-            }
-        });
-
+        return (post);
     }
 
 
@@ -300,7 +256,7 @@ public class PlaceActivity extends ActionBarActivity {
                 Uri selectedImage = intent.getData();
                 ContentResolver cr = this.getContentResolver();
                 String mime = cr.getType(selectedImage);
-                final String pt = postText;
+                final String pt = getEntryDetails();
 
                 Intent shareIntent = new PlusShare.Builder(getApplicationContext())
                         .setType("text/plain")
