@@ -66,6 +66,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
     private Marker clickedMarker;
     private ImageMap imageMap;
     private Marker lastClicked;
+    private static Double intentLat, intentLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,6 +166,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
                 listLayout.setVisibility(View.GONE);
             }
         });
+
      }
 
     @Override
@@ -180,7 +182,15 @@ public class MapsActivity extends FragmentActivity implements LocationListener,
         mMap.setMyLocationEnabled(true);
         mMap.setOnMyLocationChangeListener(this);
         Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if(mLastLocation != null){
+
+        final Double myLat = getIntent().getDoubleExtra("LAT", -200.0);
+        final Double myLng = getIntent().getDoubleExtra("LNG", -200.0);
+
+        //Toast.makeText(this, "lat lng" + myLat +" "+ myLng, Toast.LENGTH_LONG).show();
+        if(myLat > -180.0 && myLng > -180.0 ){
+            gotoLocation(myLat, myLng, DEFAULTZOOM);
+        }
+        else if(mLastLocation != null){
             lastLocalKnownLocation = mLastLocation;
             // Showing the current location in Google Map
             mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude())));

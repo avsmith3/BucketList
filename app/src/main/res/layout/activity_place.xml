@@ -40,6 +40,13 @@
         android:id="@+id/place_comment_edit"/>
 
     <Button
+        android:id="@+id/goto_map_button"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:text="View this place on the map"
+        android:onClick="viewOnMap"/>
+
+    <Button
         android:id="@+id/share_place_button"
         android:layout_width="300dp"
         android:layout_height="60dp"
@@ -50,5 +57,6 @@
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:text="Share this place with a picture!"/>
+
 
 </LinearLayout>

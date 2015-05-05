@@ -271,4 +271,15 @@ public class PlaceActivity extends ActionBarActivity {
         }
     }
 
+    public void viewOnMap(View view) {
+
+        EntryBean eb1 = new EntryBean();
+        eb1 = mydb.getEntry(entryId);
+
+        Intent intent = new Intent(this, MapsActivity.class);
+        intent.putExtra("DB_USER_ID", dbUserId);
+        intent.putExtra("LAT", eb1.latitude);
+        intent.putExtra("LNG", eb1.longitude);
+        startActivity(intent);
+    }
 }
